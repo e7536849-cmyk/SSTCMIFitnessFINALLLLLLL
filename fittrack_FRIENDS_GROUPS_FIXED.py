@@ -2907,9 +2907,13 @@ def community_features():
 
         # Add friend
         st.write("### ➕ Add Friend")
-        new_friend = st.text_input("Enter username", key="add_friend_input")
+        st.caption("Enter the exact username (shown in Privacy Settings)")
+        new_friend = st.text_input("Enter username", key="add_friend_input", placeholder="e.g., john_doe")
         if st.button("Send Friend Request"):
-            if new_friend in all_users:
+            if not new_friend.strip():
+                st.error("Please enter a username!")
+            elif new_friend.strip() in all_users:
+                new_friend = new_friend.strip()
                 if new_friend == st.session_state.username:
                     st.error("You can't add yourself!")
                 elif new_friend in user_data.get('friends', []):
@@ -2924,9 +2928,11 @@ def community_features():
                     # Add request to target user
                     all_users[new_friend]['friend_requests'].append(st.session_state.username)
                     save_users(all_users)
-                    st.success(f"Friend request sent to {new_friend}!")
+                    st.success(f"✅ Friend request sent to {new_friend}!")
+                    st.info(f"They will see your request ({st.session_state.username}) in their Friends tab.")
             else:
-                st.error("User not found")
+                st.error(f"❌ User '{new_friend.strip()}' not found. Check the spelling!")
+                st.info("💡 Tip: Ask your friend for their exact username from Privacy Settings.")
 
         # Friends list
         st.write("### 👥 My Friends")
@@ -3118,6 +3124,7 @@ def community_features():
 
             # Group Invites
             group_invites = user_data.get('group_invites', [])
+            
             if group_invites:
                 st.write("")
                 st.write("### 📬 Group Invitations")
@@ -3140,7 +3147,7 @@ def community_features():
                                     save_users(st.session_state.users_data)
                                     
                                     update_user_data(user_data)
-                                    st.success(f"Joined {group['name']}!")
+                                    st.success(f"✅ Joined {group['name']}!")
                                     st.rerun()
                                 else:
                                     st.error("Group is full!")
@@ -3149,6 +3156,10 @@ def community_features():
                                 user_data['group_invites'].remove(group_id)
                                 update_user_data(user_data)
                                 st.rerun()
+                    else:
+                        st.warning(f"Group invitation found but group no longer exists (ID: {group_id[:10]}...)")
+            else:
+                st.info("💡 No group invitations yet. Friends will see you in their invite list once they create a group!")
 
     with tab5:
         st.subheader("⚡ Challenges")
@@ -3274,6 +3285,18 @@ def community_features():
 
     with tab6:
         st.subheader("⚙️ Privacy Settings")
+        
+        # Show username
+        st.write("### 👤 Your Account Info")
+        st.info(f"""
+        **Your Username:** `{st.session_state.username}`  
+        **Your Name:** {user_data.get('name')}  
+        **Email:** {user_data.get('email')}
+        
+        💡 Use your **username** when adding friends or joining groups!
+        """)
+        
+        st.write("")
 
         st.write("### 👁️ Leaderboard Visibility")
 
