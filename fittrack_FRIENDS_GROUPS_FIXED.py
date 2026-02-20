@@ -24,7 +24,7 @@ SST_COLORS = {
 # Configure page
 st.set_page_config(
     page_title="FitTrack - SST Fitness Companion",
-    page_icon="🏋️",
+    # page_icon removed
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -32,7 +32,7 @@ st.set_page_config(
 # Universal fixed palette — no dark/light switching
 st.markdown(f"""
     <style>
-    /* ── Force a consistent light theme regardless of OS/browser setting ── */
+    /* - Force a consistent light theme regardless of OS/browser setting - */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"], .stApp {{
         background-color: #f0f2f6 !important;
         color: #1e1e2e !important;
@@ -549,7 +549,7 @@ def calculate_body_type(weight, height):
         return "Endomorph", "Larger bone structure, gains weight easily, slower metabolism"
 # Login/Registration Page
 def login_page():
-    st.markdown('<div class="main-header"><h1>🏋️ FitTrack</h1><p>School of Science and Technology Singapore</p><p>Your Personal Fitness Companion</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header"><h1>FitTrack</h1><p>School of Science and Technology Singapore</p><p>Your Personal Fitness Companion</p></div>', unsafe_allow_html=True)
 
     tab1, tab2, tab3 = st.tabs(["Sign In", "Create Account", "Reset Password"])
 
@@ -573,14 +573,14 @@ def login_page():
             if user_found:
                 st.session_state.logged_in = True
                 st.session_state.username = user_found
-                st.success("✅ Login successful!")
+                st.success("Login successful!")
                 time.sleep(1)
                 st.rerun()
             else:
-                st.error("❌ Invalid email or password")
+                st.error("Invalid email or password")
 
         st.write("")
-        st.info("💡 **Students:** Use any email | **Teachers:** Use any email")
+        st.info("**Students:** Use any email | **Teachers:** Use any email")
         st.write("")
 
         # Password reset link
@@ -627,7 +627,7 @@ def login_page():
                 st.markdown(f'<div style="background: {strength_colors[strength]}; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; margin-top: -10px;">Password Strength: {strength_labels[strength]}</div>', unsafe_allow_html=True)
 
                 if strength < 2:
-                    st.caption("💡 Use 8+ chars, uppercase, numbers, and symbols for better security")
+                    st.caption("Use 8+ chars, uppercase, numbers, and symbols for better security")
 
         st.write("### Personal Details")
 
@@ -666,21 +666,21 @@ def login_page():
                 class_label = st.text_input("Class Name", placeholder="e.g., 3-Integrity, Sec 2A", key="reg_class_label")
 
         if role == "Student":
-            st.write("### 🏠 House Selection")
+            st.write("### House Selection")
             st.write("Choose your house to earn points for your team!")
 
             house_options = {
-                "🟡 Yellow House": "yellow",
-                "🔴 Red House": "red",
-                "🔵 Blue House": "blue",
-                "🟢 Green House": "green",
-                "⚫ Black House": "black"
+                "Yellow House": "yellow",
+                "Red House": "red",
+                "Blue House": "blue",
+                "Green House": "green",
+                "Black House": "black"
             }
 
             selected_house_display = st.selectbox("Select Your House", list(house_options.keys()), key="reg_house")
             selected_house = house_options[selected_house_display]
 
-            st.info("💡 Every hour you exercise earns 1 point for your house!")
+            st.info("Every hour you exercise earns 1 point for your house!")
 
         if role == "Student":
             st.write("### Privacy Settings")
@@ -691,7 +691,7 @@ def login_page():
 
         st.write("---")
 
-        # ── Email verification ──────────────────────────────────────────────
+        # - Email verification 
         # Session state keys for verification flow
         if 'verify_otp' not in st.session_state:
             st.session_state.verify_otp = None
@@ -727,7 +727,7 @@ def login_page():
                 html = f"""
                 <div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:30px;
                             border:1px solid #e0e0e0;border-radius:10px;">
-                    <h2 style="color:#d32f2f;">🏋️ FitTrack</h2>
+                    <h2 style="color:#d32f2f;">FitTrack</h2>
                     <p>Thanks for signing up! Use the code below to verify your email address.</p>
                     <div style="text-align:center;padding:20px;background:#f5f5f5;border-radius:8px;
                                 font-size:2.5em;font-weight:bold;letter-spacing:8px;color:#1976d2;">
@@ -799,7 +799,7 @@ def login_page():
                                 cur.append(un)
                                 st.session_state.users_data[t_un]['students'] = cur
                                 lbl = t_data.get('class_label') or f"{t_data['name']}'s class"
-                                st.success(f"✅ Joined **{lbl}**!")
+                                st.success(f"Joined **{lbl}**!")
                             break
                     else:
                         st.warning("Invalid class code. You can join a class later.")
@@ -845,7 +845,7 @@ def login_page():
                     'smart_goals': [],
                     'email_verified': True
                 }
-                st.info(f"📝 Your Class Code: **{gen_code}** — Share this with your students!")
+                st.info(f"Your Class Code: **{gen_code}** — Share this with your students!")
 
             save_users(st.session_state.users_data)
             st.session_state.verify_otp = None
@@ -854,7 +854,7 @@ def login_page():
 
         # Step 1 — validate then send OTP (or create directly if SMTP not configured)
         if not st.session_state.verify_pending:
-            if st.button("📧 Send Verification Code & Create Account", key="register_btn", type="primary"):
+            if st.button("Send Verification Code & Create Account", key="register_btn", type="primary"):
                 if not new_email or not full_name or not new_password:
                     st.error("Please fill in all required fields.")
                 elif new_password != confirm_password:
@@ -873,37 +873,37 @@ def login_page():
                         st.session_state.verify_email = new_email.lower()
                         st.session_state.verify_pending = True
                         st.session_state.verify_sent_at = datetime.now().isoformat()
-                        st.success(f"📧 Verification code sent to **{new_email}**. Check your inbox!")
+                        st.success(f"Verification code sent to **{new_email}**. Check your inbox!")
                         st.rerun()
                     else:
                         # SMTP not configured — create account immediately, no interruption
                         create_account()
-                        st.success("✅ Account created! Please sign in.")
+                        st.success("Account created! Please sign in.")
                         st.balloons()
                         time.sleep(2)
                         st.rerun()
 
         # Step 2 — enter OTP (only reached when email was actually sent)
         else:
-            st.info(f"📧 A 6-digit code was sent to **{st.session_state.verify_email}**. Enter it below to complete registration.")
+            st.info(f"A 6-digit code was sent to **{st.session_state.verify_email}**. Enter it below to complete registration.")
             entered_otp = st.text_input("Verification Code", max_chars=6,
                                         placeholder="Enter 6-digit code", key="otp_input")
 
             col_verify, col_resend, col_cancel = st.columns([2, 1, 1])
 
             with col_verify:
-                if st.button("✅ Verify & Create Account", type="primary", use_container_width=True, key="verify_btn"):
+                if st.button("Verify & Create Account", type="primary", use_container_width=True, key="verify_btn"):
                     if entered_otp.strip() != st.session_state.verify_otp:
-                        st.error("❌ Incorrect code. Please try again.")
+                        st.error("Incorrect code. Please try again.")
                     else:
                         create_account()
-                        st.success("✅ Account created! Please sign in.")
+                        st.success("Account created! Please sign in.")
                         st.balloons()
                         time.sleep(2)
                         st.rerun()
 
             with col_resend:
-                if st.button("🔄 Resend", use_container_width=True, key="resend_btn"):
+                if st.button("Resend", use_container_width=True, key="resend_btn"):
                     import random as _rand3
                     otp2 = str(_rand3.randint(100000, 999999))
                     ok2, _ = send_verification_email(st.session_state.verify_email, otp2)
@@ -914,14 +914,14 @@ def login_page():
                         st.error("Failed to resend. Check SMTP settings.")
 
             with col_cancel:
-                if st.button("✖ Cancel", use_container_width=True, key="cancel_verify_btn"):
+                if st.button("Cancel", use_container_width=True, key="cancel_verify_btn"):
                     st.session_state.verify_otp = None
                     st.session_state.verify_email = None
                     st.session_state.verify_pending = False
                     st.rerun()
 
     with tab3:
-        st.subheader("🔐 Reset Password")
+        st.subheader("Reset Password")
         st.write("Enter your email to reset your password")
 
         reset_email = st.text_input("Email Address", key="reset_email", placeholder="your.email@example.com")
@@ -937,7 +937,7 @@ def login_page():
                     break
 
             if user_found:
-                st.success("✅ Account found!")
+                st.success("Account found!")
                 st.write("")
                 st.write("### Set New Password")
 
@@ -953,19 +953,19 @@ def login_page():
                         # Update password
                         st.session_state.users_data[username_found]['password'] = new_pwd
                         save_users(st.session_state.users_data)
-                        st.success("✅ Password reset successful! Please sign in with your new password.")
+                        st.success("Password reset successful! Please sign in with your new password.")
                         st.balloons()
                         time.sleep(2)
                         st.rerun()
             else:
-                st.error("❌ Email not found. Please check your email or create a new account.")
+                st.error("Email not found. Please check your email or create a new account.")
 
         st.write("")
-        st.info("💡 **Note:** In production, this would send a secure reset link to your email. For now, you can reset directly here.")
+        st.info("**Note:** In production, this would send a secure reset link to your email. For now, you can reset directly here.")
 
 # BMI Calculator
 def bmi_calculator():
-    st.header("📊 BMI Calculator")
+    st.header("BMI Calculator")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -1007,7 +1007,7 @@ def bmi_calculator():
         with col2:
             st.markdown(f'<div class="stat-card"><h2 style="color: {SST_COLORS["gray"]};">Category: {category}</h2></div>', unsafe_allow_html=True)
 
-        st.info(f"📈 You have {len(user_data['bmi_history'])} BMI record(s) saved.")
+        st.info(f"You have {len(user_data['bmi_history'])} BMI record(s) saved.")
 
         # Show history chart if there's data
         if len(user_data['bmi_history']) > 1:
@@ -1018,7 +1018,7 @@ def bmi_calculator():
 
 # NAPFA Test Calculator
 def napfa_calculator():
-    st.header("🏃 NAPFA Test Calculator")
+    st.header("NAPFA Test Calculator")
 
     user_data = get_user_data()
 
@@ -1093,13 +1093,13 @@ def napfa_calculator():
 
             # Determine medal
             if total >= 21 and min_grade >= 3:
-                medal = "🥇 Gold"
+                medal = "Gold"
                 medal_color = "#FFD700"
             elif total >= 15 and min_grade >= 2:
-                medal = "🥈 Silver"
+                medal = "Silver"
                 medal_color = "#C0C0C0"
             elif total >= 9 and min_grade >= 1:
-                medal = "🥉 Bronze"
+                medal = "Bronze"
                 medal_color = "#CD7F32"
             else:
                 medal = "No Medal"
@@ -1137,14 +1137,14 @@ def napfa_calculator():
             with col2:
                 st.markdown(f'<div class="stat-card"><h2 style="color: {medal_color};">Medal: {medal}</h2></div>', unsafe_allow_html=True)
 
-            st.info(f"📈 You have {len(user_data['napfa_history'])} NAPFA test(s) saved.")
+            st.info(f"You have {len(user_data['napfa_history'])} NAPFA test(s) saved.")
 
         except Exception as e:
             st.error(f"Error calculating grades: {str(e)}")
 
 # Sleep Tracker
 def sleep_tracker():
-    st.header("😴 Sleep Tracker")
+    st.header("Sleep Tracker")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -1169,19 +1169,19 @@ def sleep_tracker():
             if hours >= 8:
                 quality = "Excellent"
                 color = "#4caf50"
-                advice = "✓ Great job! You're getting enough sleep."
+                advice = "Great job! You're getting enough sleep."
             elif hours >= 7:
                 quality = "Good"
                 color = "#8bc34a"
-                advice = "👍 Good sleep duration. Try to get a bit more."
+                advice = "Good sleep duration. Try to get a bit more."
             elif hours >= 6:
                 quality = "Fair"
                 color = "#ff9800"
-                advice = "⚠️ You need more sleep. Aim for 8-10 hours per night."
+                advice = "You need more sleep. Aim for 8-10 hours per night."
             else:
                 quality = "Poor"
                 color = "#f44336"
-                advice = "⚠️ You need more sleep. Aim for 8-10 hours per night."
+                advice = "You need more sleep. Aim for 8-10 hours per night."
 
             # Save to history
             user_data = get_user_data()
@@ -1203,7 +1203,7 @@ def sleep_tracker():
                 st.markdown(f'<div class="stat-card"><h2 style="color: {SST_COLORS["blue"]};">Quality: {quality}</h2></div>', unsafe_allow_html=True)
 
             st.info(advice)
-            st.info(f"📈 You have {len(user_data['sleep_history'])} sleep record(s) saved.")
+            st.info(f"You have {len(user_data['sleep_history'])} sleep record(s) saved.")
 
             # Show history chart if there's data
             if len(user_data['sleep_history']) > 1:
@@ -1217,7 +1217,7 @@ def sleep_tracker():
 
 # Exercise Logger
 def exercise_logger():
-    st.header("💪 Workout Logger")
+    st.header("Workout Logger")
 
     user_data = get_user_data()
     has_openai = bool(OPENAI_API_KEY)
@@ -1232,7 +1232,7 @@ def exercise_logger():
     ALL_EXERCISES = COUNTER_EXERCISES + TIMER_EXERCISES + ["Other"]
 
     # Create tabs - just 2!
-    tab1, tab2 = st.tabs(["📝 Log Workout", "📊 Workout History"])
+    tab1, tab2 = st.tabs(["Log Workout", "Workout History"])
 
     with tab1:
         st.subheader("Log Your Workout")
@@ -1241,13 +1241,13 @@ def exercise_logger():
 
         # AI verification status
         if has_openai:
-            st.success("✅ **AI Verification Active** — upload a photo to earn bonus points!")
+            st.success("**AI Verification Active** — upload a photo to earn bonus points!")
         else:
-            st.info("💡 **Mock Mode** — workouts logged without photo verification for testing.")
+            st.info("**Mock Mode** — workouts logged without photo verification for testing.")
 
         st.write("---")
 
-        # ── Exercise selector ──────────────────────────────────────────────
+        # - Exercise selector 
         col1, col2 = st.columns(2)
         with col1:
             exercise_type = st.selectbox(
@@ -1264,18 +1264,18 @@ def exercise_logger():
         if exercise_type == "Other":
             tracking_mode = st.radio(
                 "How would you like to track this exercise?",
-                ["🔢 Rep Counter", "⏱️ Timer"],
+                [" Rep Counter", "Timer"],
                 horizontal=True
             )
-            is_cardio = tracking_mode == "⏱️ Timer"
+            is_cardio = tracking_mode == "Timer"
 
         st.write("---")
 
-        # ══════════════════════════════════════════════════════════════════
+        # 
         #  COUNTER  (strength / bodyweight exercises)
-        # ══════════════════════════════════════════════════════════════════
+        # 
         if not is_cardio:
-            st.write("### 🔢 Rep Counter")
+            st.write("###  Rep Counter")
 
             # Initialise counter state
             if "rep_count" not in st.session_state:
@@ -1307,25 +1307,25 @@ def exercise_logger():
             # Counter controls
             btn1, btn2, btn3, btn4 = st.columns(4)
             with btn1:
-                if st.button("➕ +1", use_container_width=True):
+                if st.button("+1", use_container_width=True):
                     st.session_state.rep_count += 1
                     st.rerun()
             with btn2:
-                if st.button("➕ +5", use_container_width=True):
+                if st.button("+5", use_container_width=True):
                     st.session_state.rep_count += 5
                     st.rerun()
             with btn3:
-                if st.button("➖ -1", use_container_width=True, disabled=st.session_state.rep_count == 0):
+                if st.button(" -1", use_container_width=True, disabled=st.session_state.rep_count == 0):
                     st.session_state.rep_count = max(0, st.session_state.rep_count - 1)
                     st.rerun()
             with btn4:
-                if st.button("🔄 Reset", use_container_width=True):
+                if st.button("Reset", use_container_width=True):
                     st.session_state.rep_count = 0
                     st.rerun()
 
             # Finish set button
             st.write("")
-            if st.button("✅ Finish Set & Rest", type="primary", use_container_width=True, disabled=st.session_state.rep_count == 0):
+            if st.button("Finish Set & Rest", type="primary", use_container_width=True, disabled=st.session_state.rep_count == 0):
                 st.session_state.set_log.append((st.session_state.set_count, st.session_state.rep_count))
                 st.session_state.set_count += 1
                 st.session_state.rep_count = 0
@@ -1350,9 +1350,9 @@ def exercise_logger():
 
             st.write("---")
 
-            if st.button("🚀 Save Workout", type="primary", use_container_width=True, key="save_counter"):
+            if st.button(" Save Workout", type="primary", use_container_width=True, key="save_counter"):
                 if not st.session_state.set_log and st.session_state.rep_count == 0:
-                    st.error("⚠️ Log at least one set or some reps first!")
+                    st.error("Log at least one set or some reps first!")
                 else:
                     # If there are reps in the counter but set not finished, count them
                     if st.session_state.rep_count > 0:
@@ -1377,18 +1377,18 @@ def exercise_logger():
                         if is_valid:
                             points_earned = int(manual_duration * 10)
                             verification_status = "verified"
-                            st.success(f"✅ **AI Verified!** Confidence: {confidence}%\n\n{feedback}")
+                            st.success(f"**AI Verified!** Confidence: {confidence}%\n\n{feedback}")
                         else:
                             points_earned = int(manual_duration * 3)
                             verification_status = "failed"
-                            st.warning(f"⚠️ Verification issue: {feedback}")
+                            st.warning(f"Verification issue: {feedback}")
                     elif uploaded_file and not has_openai:
                         points_earned = int(manual_duration * 10)
                         verification_status = "mock"
-                        st.success("✅ Workout logged! (Mock mode)")
+                        st.success("Workout logged! (Mock mode)")
                     else:
                         points_earned = int(manual_duration * 5)
-                        st.success("✅ Workout saved without photo verification.")
+                        st.success("Workout saved without photo verification.")
 
                     unit = "sec" if exercise_type == "Plank (seconds)" else "reps"
 
@@ -1432,7 +1432,7 @@ def exercise_logger():
                         user_data['badges'].extend(new_badges)
                         user_data['total_points'] += badge_pts
                         for badge in new_badges:
-                            st.success(f"🎖️ Badge: {badge['name']} (+{badge['points']} pts)")
+                            st.success(f"Badge: {badge['name']} (+{badge['points']} pts)")
 
                     user_data['level'] = calculate_level(user_data['total_points'])[0]
                     update_user_data(user_data)
@@ -1442,24 +1442,24 @@ def exercise_logger():
                     st.session_state.set_count = 1
                     st.session_state.set_log = []
 
-                    st.success(f"💪 Saved! {sets_done} sets · {total_reps} {unit} · +{points_earned} pts")
+                    st.success(f"Saved! {sets_done} sets · {total_reps} {unit} · +{points_earned} pts")
                     st.balloons()
                     time.sleep(1)
                     st.rerun()
 
-        # ══════════════════════════════════════════════════════════════════
+        # 
         #  TIMER  (Walk / Jog / Run / Sprint)
-        # ══════════════════════════════════════════════════════════════════
+        # 
         else:
-            st.write("### ⏱️ Cardio Timer")
+            st.write("### Cardio Timer")
 
             # Timer type
             timer_col1, timer_col2 = st.columns(2)
             with timer_col1:
-                timer_type = st.radio("Timer Mode", ["⏱️ Simple Timer", "🔄 Interval Timer (HIIT)"], horizontal=True)
+                timer_type = st.radio("Timer Mode", ["Simple Timer", "Interval Timer (HIIT)"], horizontal=True)
 
-            # ── Simple timer ──────────────────────────────────────────────
-            if timer_type == "⏱️ Simple Timer":
+            # - Simple timer 
+            if timer_type == "Simple Timer":
                 with timer_col2:
                     preset_time = st.selectbox(
                         "Preset Duration",
@@ -1498,7 +1498,7 @@ def exercise_logger():
                 secs = st.session_state.timer_seconds_left % 60
 
                 if st.session_state.timer_seconds_left == 0 and st.session_state.timer_total > 0:
-                    t_color, status_text = "#4caf50", "Complete! 🎉"
+                    t_color, status_text = "#4caf50", "Complete! "
                 elif st.session_state.timer_running:
                     t_color, status_text = "#ff9800", f"Running… ({mins}:{secs:02d})"
                 else:
@@ -1517,25 +1517,25 @@ def exercise_logger():
                     st.rerun()
 
                 if st.session_state.timer_seconds_left == 0 and st.session_state.timer_total > 0 and not st.session_state.timer_running:
-                    st.success("🎉 Timer Complete!")
+                    st.success("Timer Complete!")
                     st.balloons()
 
                 tc1, tc2, tc3 = st.columns(3)
                 with tc1:
-                    if st.button("▶️ Start", use_container_width=True, disabled=st.session_state.timer_running):
+                    if st.button("Start", use_container_width=True, disabled=st.session_state.timer_running):
                         st.session_state.timer_running = True
                         st.session_state.timer_seconds_left = total_seconds
                         st.session_state.timer_total = total_seconds
                         st.session_state.timer_start_time = time.time()
                         st.rerun()
                 with tc2:
-                    if st.button("⏸️ Pause", use_container_width=True, disabled=not st.session_state.timer_running):
+                    if st.button("Pause", use_container_width=True, disabled=not st.session_state.timer_running):
                         st.session_state.timer_running = False
                         st.session_state.timer_total = st.session_state.timer_seconds_left
                         st.session_state.timer_start_time = None
                         st.rerun()
                 with tc3:
-                    if st.button("🔄 Reset", use_container_width=True):
+                    if st.button("Reset", use_container_width=True):
                         st.session_state.timer_running = False
                         st.session_state.timer_seconds_left = total_seconds
                         st.session_state.timer_total = total_seconds
@@ -1544,7 +1544,7 @@ def exercise_logger():
 
                 workout_duration_minutes = (st.session_state.timer_total - st.session_state.timer_seconds_left) / 60 if not st.session_state.timer_running else (time.time() - (st.session_state.timer_start_time or time.time())) / 60
 
-            # ── Interval timer ─────────────────────────────────────────────
+            # - Interval timer 
             else:
                 with timer_col2:
                     st.write("")
@@ -1584,7 +1584,7 @@ def exercise_logger():
 
                 r_mins = st.session_state.interval_seconds_left // 60
                 r_secs = st.session_state.interval_seconds_left % 60
-                phase = "WORK 💪" if st.session_state.interval_is_work else "REST 😮‍💨"
+                phase = "WORK" if st.session_state.interval_is_work else "REST"
                 i_color = "#d32f2f" if st.session_state.interval_is_work else "#4caf50"
 
                 st.markdown(f"""
@@ -1600,11 +1600,11 @@ def exercise_logger():
                     st.rerun()
 
                 if st.session_state.interval_completed:
-                    st.success("🎉 Interval session complete!")
+                    st.success("Interval session complete!")
 
                 ic_b1, ic_b2, ic_b3 = st.columns(3)
                 with ic_b1:
-                    if st.button("▶️ Start", use_container_width=True, disabled=st.session_state.interval_running, key="int_start"):
+                    if st.button("Start", use_container_width=True, disabled=st.session_state.interval_running, key="int_start"):
                         st.session_state.interval_running = True
                         st.session_state.interval_completed = False
                         st.session_state.interval_current_round = 1
@@ -1613,12 +1613,12 @@ def exercise_logger():
                         st.session_state.interval_start_time = time.time()
                         st.rerun()
                 with ic_b2:
-                    if st.button("⏸️ Pause", use_container_width=True, disabled=not st.session_state.interval_running, key="int_pause"):
+                    if st.button("Pause", use_container_width=True, disabled=not st.session_state.interval_running, key="int_pause"):
                         st.session_state.interval_running = False
                         st.session_state.interval_start_time = None
                         st.rerun()
                 with ic_b3:
-                    if st.button("🔄 Reset", use_container_width=True, key="int_reset"):
+                    if st.button("Reset", use_container_width=True, key="int_reset"):
                         st.session_state.interval_running = False
                         st.session_state.interval_completed = False
                         st.session_state.interval_current_round = 1
@@ -1630,7 +1630,7 @@ def exercise_logger():
                 total_interval_sec = rounds * (work_time + rest_time)
                 workout_duration_minutes = total_interval_sec / 60
 
-            # ── Cardio extra info ──────────────────────────────────────────
+            # - Cardio extra info 
             st.write("---")
             cc1, cc2 = st.columns(2)
             with cc1:
@@ -1646,7 +1646,7 @@ def exercise_logger():
 
             st.write("---")
 
-            if st.button("🚀 Save Cardio Session", type="primary", use_container_width=True, key="save_cardio"):
+            if st.button(" Save Cardio Session", type="primary", use_container_width=True, key="save_cardio"):
                 duration_used = workout_duration_minutes if workout_duration_minutes > 0.1 else st.number_input("Session Duration (minutes)", min_value=1, max_value=300, value=20)
 
                 points_earned = int(duration_used * 8)
@@ -1665,7 +1665,7 @@ def exercise_logger():
                     if is_valid:
                         points_earned = int(duration_used * 12)
                         verification_status = "verified"
-                        st.success(f"✅ Verified! {feedback}")
+                        st.success(f"Verified! {feedback}")
                     else:
                         verification_status = "failed"
                 elif uploaded_file:
@@ -1728,12 +1728,12 @@ def exercise_logger():
                     user_data['badges'].extend(new_badges)
                     user_data['total_points'] += badge_pts
                     for badge in new_badges:
-                        st.success(f"🎖️ Badge: {badge['name']} (+{badge['points']} pts)")
+                        st.success(f"Badge: {badge['name']} (+{badge['points']} pts)")
 
                 user_data['level'] = calculate_level(user_data['total_points'])[0]
                 update_user_data(user_data)
 
-                st.success(f"🏃 {exercise_type} saved! {int(duration_used)} min · ~{estimated_steps:,} steps · +{points_earned} pts")
+                st.success(f"{exercise_type} saved! {int(duration_used)} min · ~{estimated_steps:,} steps · +{points_earned} pts")
                 st.balloons()
                 time.sleep(1)
                 st.session_state.timer_running = False
@@ -1741,11 +1741,11 @@ def exercise_logger():
                 st.session_state.timer_total = 0
                 st.rerun()
 
-    # ══════════════════════════════════════════════════════════════════════
+    # 
     #  TAB 2 — WORKOUT HISTORY  (strength + cardio combined)
-    # ══════════════════════════════════════════════════════════════════════
+    # 
     with tab2:
-        st.subheader("📊 Workout History")
+        st.subheader("Workout History")
 
         user_data = get_user_data()
 
@@ -1776,11 +1776,11 @@ def exercise_logger():
                 pts = ex.get('points_earned', 0)
 
                 if v_status == 'verified':
-                    border_color, status_icon = "#4caf50", "✅ Verified"
+                    border_color, status_icon = "#4caf50", "Verified"
                 elif v_status == 'mock':
-                    border_color, status_icon = "#1976d2", "🔵 Logged"
+                    border_color, status_icon = "#1976d2", "Logged"
                 else:
-                    border_color, status_icon = "#ff9800", "⚠️ Unverified"
+                    border_color, status_icon = "#ff9800", "Unverified"
 
                 if wtype == 'cardio':
                     dist_str = f" · {ex.get('distance_km', 0):.1f} km" if ex.get('distance_km', 0) > 0 else ""
@@ -1795,14 +1795,14 @@ def exercise_logger():
                 <div class="stat-card" style="border-left-color:{border_color};">
                     <strong>{ex['date']} {ex.get('time', '')}</strong> — {ex.get('name', 'Exercise')}
                     &nbsp;&nbsp;<span style="opacity:0.7">{status_icon}</span><br>
-                    📋 {detail} &nbsp;|&nbsp; 💪 {ex.get('intensity','N/A')} &nbsp;|&nbsp; ⭐ +{pts} pts
-                    {f"<br><em>📝 {ex.get('notes','')}</em>" if ex.get('notes') else ""}
+                     {detail} &nbsp;|&nbsp; {ex.get('intensity','N/A')} &nbsp;|&nbsp;  +{pts} pts
+                    {f"<br><em>{ex.get('notes','')}</em>" if ex.get('notes') else ""}
                 </div>
                 """, unsafe_allow_html=True)
 
             # Breakdown chart
             st.write("")
-            st.write("### 📈 Exercise Breakdown")
+            st.write("### Exercise Breakdown")
             exercise_counts = {}
             for ex in exercises:
                 name = ex.get('name', 'Unknown')
@@ -1823,9 +1823,9 @@ def check_and_award_badges(user_data):
         latest_napfa = user_data['napfa_history'][-1]
 
         # First Gold Medal
-        if '🥇 First Gold' not in existing_badges and '🥇 Gold' in latest_napfa['medal']:
+        if 'First Gold' not in existing_badges and 'Gold' in latest_napfa['medal']:
             badges_earned.append({
-                'name': '🥇 First Gold',
+                'name': 'First Gold',
                 'description': 'Earned your first NAPFA Gold medal!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 100
@@ -1834,9 +1834,9 @@ def check_and_award_badges(user_data):
 
         # Perfect Score
         all_grade_5 = all(grade == 5 for grade in latest_napfa['grades'].values())
-        if '💯 Perfect Score' not in existing_badges and all_grade_5:
+        if 'Perfect Score' not in existing_badges and all_grade_5:
             badges_earned.append({
-                'name': '💯 Perfect Score',
+                'name': 'Perfect Score',
                 'description': 'All Grade 5s on NAPFA test!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 200
@@ -1848,9 +1848,9 @@ def check_and_award_badges(user_data):
         total_workouts = len(user_data['exercises'])
 
         # Century Club
-        if '💪 Century Club' not in existing_badges and total_workouts >= 100:
+        if 'Century Club' not in existing_badges and total_workouts >= 100:
             badges_earned.append({
-                'name': '💪 Century Club',
+                'name': 'Century Club',
                 'description': 'Completed 100 total workouts!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 150
@@ -1858,9 +1858,9 @@ def check_and_award_badges(user_data):
             points_earned += 150
 
         # Fifty Strong
-        if '🏋️ Fifty Strong' not in existing_badges and total_workouts >= 50:
+        if 'Fifty Strong' not in existing_badges and total_workouts >= 50:
             badges_earned.append({
-                'name': '🏋️ Fifty Strong',
+                'name': 'Fifty Strong',
                 'description': 'Completed 50 workouts!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 75
@@ -1868,9 +1868,9 @@ def check_and_award_badges(user_data):
             points_earned += 75
 
         # Getting Started
-        if '🎯 Getting Started' not in existing_badges and total_workouts >= 10:
+        if 'Getting Started' not in existing_badges and total_workouts >= 10:
             badges_earned.append({
-                'name': '🎯 Getting Started',
+                'name': 'Getting Started',
                 'description': 'Completed 10 workouts!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 25
@@ -1894,9 +1894,9 @@ def check_and_award_badges(user_data):
                     break
 
             # 7-day streak
-            if '🔥 Week Warrior' not in existing_badges and streak >= 7:
+            if 'Week Warrior' not in existing_badges and streak >= 7:
                 badges_earned.append({
-                    'name': '🔥 Week Warrior',
+                    'name': 'Week Warrior',
                     'description': '7-day workout streak!',
                     'date': datetime.now().strftime('%Y-%m-%d'),
                     'points': 50
@@ -1904,9 +1904,9 @@ def check_and_award_badges(user_data):
                 points_earned += 50
 
             # 30-day streak
-            if '🔥🔥 Month Master' not in existing_badges and streak >= 30:
+            if 'Month Master' not in existing_badges and streak >= 30:
                 badges_earned.append({
-                    'name': '🔥🔥 Month Master',
+                    'name': 'Month Master',
                     'description': '30-day workout streak!',
                     'date': datetime.now().strftime('%Y-%m-%d'),
                     'points': 150
@@ -1923,9 +1923,9 @@ def check_and_award_badges(user_data):
         if len(recent_sleep) >= 7:
             good_sleep_count = sum(1 for s in recent_sleep if s['hours'] >= 8)
 
-            if '🌙 Sleep Champion' not in existing_badges and good_sleep_count >= 7:
+            if 'Sleep Champion' not in existing_badges and good_sleep_count >= 7:
                 badges_earned.append({
-                    'name': '🌙 Sleep Champion',
+                    'name': 'Sleep Champion',
                     'description': '7 days of 8+ hours sleep!',
                     'date': datetime.now().strftime('%Y-%m-%d'),
                     'points': 50
@@ -1936,18 +1936,18 @@ def check_and_award_badges(user_data):
     if user_data.get('goals'):
         completed_goals = sum(1 for g in user_data['goals'] if g['progress'] >= 100)
 
-        if '🎯 Goal Crusher' not in existing_badges and completed_goals >= 5:
+        if 'Goal Crusher' not in existing_badges and completed_goals >= 5:
             badges_earned.append({
-                'name': '🎯 Goal Crusher',
+                'name': 'Goal Crusher',
                 'description': 'Completed 5 fitness goals!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 100
             })
             points_earned += 100
 
-        if '🎯 First Goal' not in existing_badges and completed_goals >= 1:
+        if 'First Goal' not in existing_badges and completed_goals >= 1:
             badges_earned.append({
-                'name': '🎯 First Goal',
+                'name': 'First Goal',
                 'description': 'Completed your first goal!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 30
@@ -1955,9 +1955,9 @@ def check_and_award_badges(user_data):
             points_earned += 30
 
     # Daily Login
-    if '📅 Daily Visitor' not in existing_badges and user_data.get('login_streak', 0) >= 7:
+    if 'Daily Visitor' not in existing_badges and user_data.get('login_streak', 0) >= 7:
         badges_earned.append({
-            'name': '📅 Daily Visitor',
+            'name': 'Daily Visitor',
             'description': '7-day login streak!',
             'date': datetime.now().strftime('%Y-%m-%d'),
             'points': 40
@@ -1969,27 +1969,27 @@ def check_and_award_badges(user_data):
         house_points = user_data.get('house_points_contributed', 0)
 
         # House Point Milestones
-        if '🏠 House Hero' not in existing_badges and house_points >= 100:
+        if 'House Hero' not in existing_badges and house_points >= 100:
             badges_earned.append({
-                'name': '🏠 House Hero',
+                'name': 'House Hero',
                 'description': '100 points for your house!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 150
             })
             points_earned += 150
 
-        if '🏠 House Champion' not in existing_badges and house_points >= 50:
+        if 'House Champion' not in existing_badges and house_points >= 50:
             badges_earned.append({
-                'name': '🏠 House Champion',
+                'name': 'House Champion',
                 'description': '50 points for your house!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 75
             })
             points_earned += 75
 
-        if '🏠 House Starter' not in existing_badges and house_points >= 10:
+        if 'House Starter' not in existing_badges and house_points >= 10:
             badges_earned.append({
-                'name': '🏠 House Starter',
+                'name': 'House Starter',
                 'description': '10 points for your house!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 25
@@ -2000,18 +2000,18 @@ def check_and_award_badges(user_data):
     if user_data.get('friends'):
         friend_count = len(user_data['friends'])
 
-        if '👥 Social Butterfly' not in existing_badges and friend_count >= 10:
+        if 'Social Butterfly' not in existing_badges and friend_count >= 10:
             badges_earned.append({
-                'name': '👥 Social Butterfly',
+                'name': 'Social Butterfly',
                 'description': '10 friends added!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 50
             })
             points_earned += 50
 
-        if '👥 Friend Finder' not in existing_badges and friend_count >= 5:
+        if 'Friend Finder' not in existing_badges and friend_count >= 5:
             badges_earned.append({
-                'name': '👥 Friend Finder',
+                'name': 'Friend Finder',
                 'description': '5 friends added!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 25
@@ -2022,9 +2022,9 @@ def check_and_award_badges(user_data):
     if user_data.get('groups'):
         group_count = len(user_data['groups'])
 
-        if '👫 Group Leader' not in existing_badges and group_count >= 3:
+        if 'Group Leader' not in existing_badges and group_count >= 3:
             badges_earned.append({
-                'name': '👫 Group Leader',
+                'name': 'Group Leader',
                 'description': 'Member of 3 groups!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 40
@@ -2036,9 +2036,9 @@ def check_and_award_badges(user_data):
         # Check workout variety
         exercise_types = set([e['name'] for e in user_data['exercises']])
 
-        if '🎨 Variety Master' not in existing_badges and len(exercise_types) >= 10:
+        if ' Variety Master' not in existing_badges and len(exercise_types) >= 10:
             badges_earned.append({
-                'name': '🎨 Variety Master',
+                'name': ' Variety Master',
                 'description': '10 different exercise types!',
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'points': 60
@@ -2119,32 +2119,32 @@ def update_login_streak(user_data):
 
 # Community and Social Features
 def community_features():
-    st.header("🏆 Community & Achievements")
+    st.header("Community & Achievements")
 
     user_data = get_user_data()
     all_users = st.session_state.users_data
 
     # Create tabs
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "🏠 Houses",
-        "🏆 Leaderboards",
-        "🎖️ My Achievements",
-        "👥 Friends",
-        "⚡ Challenges",
-        "⚙️ Privacy Settings"
+        "Houses",
+        "Leaderboards",
+        "My Achievements",
+        "Friends",
+        "Challenges",
+        "Privacy Settings"
     ])
 
     with tab1:
-        st.subheader("🏠 House System")
+        st.subheader("House System")
         st.write("Compete for house glory! Every hour you exercise earns 1 point for your house.")
 
         # Calculate house standings
         house_stats = {
-            'yellow': {'points': 0, 'members': 0, 'workouts': 0, 'display': '🟡 Yellow House', 'color': '#FFD700'},
-            'red': {'points': 0, 'members': 0, 'workouts': 0, 'display': '🔴 Red House', 'color': '#DC143C'},
-            'blue': {'points': 0, 'members': 0, 'workouts': 0, 'display': '🔵 Blue House', 'color': '#1E90FF'},
-            'green': {'points': 0, 'members': 0, 'workouts': 0, 'display': '🟢 Green House', 'color': '#32CD32'},
-            'black': {'points': 0, 'members': 0, 'workouts': 0, 'display': '⚫ Black House', 'color': '#2F4F4F'}
+            'yellow': {'points': 0, 'members': 0, 'workouts': 0, 'display': 'Yellow House', 'color': '#FFD700'},
+            'red': {'points': 0, 'members': 0, 'workouts': 0, 'display': 'Red House', 'color': '#DC143C'},
+            'blue': {'points': 0, 'members': 0, 'workouts': 0, 'display': 'Blue House', 'color': '#1E90FF'},
+            'green': {'points': 0, 'members': 0, 'workouts': 0, 'display': 'Green House', 'color': '#32CD32'},
+            'black': {'points': 0, 'members': 0, 'workouts': 0, 'display': 'Black House', 'color': '#2F4F4F'}
         }
 
         # Calculate total points for each house
@@ -2160,10 +2160,10 @@ def community_features():
         sorted_houses = sorted(house_stats.items(), key=lambda x: x[1]['points'], reverse=True)
 
         # Display house leaderboard
-        st.write("### 🏆 House Standings")
+        st.write("### House Standings")
 
         for rank, (house_name, stats) in enumerate(sorted_houses, 1):
-            medal = "🥇" if rank == 1 else "🥈" if rank == 2 else "🥉" if rank == 3 else f"{rank}."
+            medal = "" if rank == 1 else "" if rank == 2 else "" if rank == 3 else f"{rank}."
 
             with st.container():
                 st.markdown(f"""
@@ -2171,9 +2171,9 @@ def community_features():
                     <h2>{medal} {stats['display']}</h2>
                     <h1>{stats['points']:.1f} Points</h1>
                     <p style="font-size: 1.1em;">
-                        👥 {stats['members']} members |
-                        💪 {stats['workouts']} total workouts |
-                        📊 {(stats['points']/stats['members'] if stats['members'] > 0 else 0):.1f} pts/member
+                        {stats['members']} members |
+                        {stats['workouts']} total workouts |
+                        {(stats['points']/stats['members'] if stats['members'] > 0 else 0):.1f} pts/member
                     </p>
                 </div>
                 """, unsafe_allow_html=True)
@@ -2182,7 +2182,7 @@ def community_features():
         if user_data.get('role') == 'student' and user_data.get('house'):
             st.write("")
             st.write("---")
-            st.write("### 🏠 Your House")
+            st.write("### Your House")
 
             user_house = user_data['house']
             user_house_stats = house_stats.get(user_house, {})
@@ -2198,46 +2198,46 @@ def community_features():
             # House rank
             house_rank = next((i+1 for i, (h, s) in enumerate(sorted_houses) if h == user_house), 0)
             if house_rank == 1:
-                st.success(f"🥇 Your house is in 1ST PLACE! Keep it up!")
+                st.success(f"Your house is in 1ST PLACE! Keep it up!")
             elif house_rank == 2:
-                st.info(f"🥈 Your house is in 2nd place. Keep training to reach 1st!")
+                st.info(f"Your house is in 2nd place. Keep training to reach 1st!")
             elif house_rank == 3:
-                st.info(f"🥉 Your house is in 3rd place. Every workout counts!")
+                st.info(f"Your house is in 3rd place. Every workout counts!")
             else:
                 st.warning(f"Your house is in {house_rank}th place. Time to train harder!")
 
             # Top contributors in user's house
             st.write("")
-            st.write(f"### ⭐ Top Contributors - {user_house_stats.get('display', 'Your House')}")
+            st.write(f"###  Top Contributors - {user_house_stats.get('display', 'Your House')}")
 
             house_members = [(username, data) for username, data in all_users.items()
                            if data.get('house') == user_house and data.get('role') == 'student']
             house_members.sort(key=lambda x: x[1].get('house_points_contributed', 0), reverse=True)
 
             for idx, (username, member) in enumerate(house_members[:5], 1):
-                medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
+                medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
                 points = member.get('house_points_contributed', 0)
 
-                highlight = " 🌟 (You)" if username == st.session_state.username else ""
+                highlight = " (You)" if username == st.session_state.username else ""
                 st.write(f"{medal} **{member['name']}**{highlight} - {points:.1f} points")
         else:
-            st.info("💡 Students: Your house information will appear here after you log workouts!")
+            st.info("Students: Your house information will appear here after you log workouts!")
 
     with tab2:
-        st.subheader("🏆 Leaderboards & High Scores")
+        st.subheader("Leaderboards & High Scores")
 
         if not user_data.get('show_on_leaderboards', False):
-            st.warning("⚠️ You're not visible on leaderboards. Update your privacy settings to join!")
+            st.warning("You're not visible on leaderboards. Update your privacy settings to join!")
             st.info("Go to 'Privacy Settings' tab to enable leaderboard participation.")
 
         # Create sub-tabs for different leaderboard types
         lb_tab1, lb_tab2, lb_tab3, lb_tab4, lb_tab5, lb_tab6 = st.tabs([
-            "🌍 Global",
-            "🏠 House Rankings",
-            "🏅 High Scores",
-            "👥 Friends",
-            "👫 Groups",
-            "📚 Class"
+            " Global",
+            "House Rankings",
+            " High Scores",
+            "Friends",
+            "Groups",
+            "Class"
         ])
 
         # Filter users who opted in to leaderboards
@@ -2245,7 +2245,7 @@ def community_features():
                             if data.get('show_on_leaderboards', False) and data.get('role') == 'student'}
 
         with lb_tab1:
-            st.write("### 🌍 Global Leaderboards")
+            st.write("###  Global Leaderboards")
             st.write("Compete with everyone who opted in!")
 
             if len(leaderboard_users) == 0:
@@ -2259,7 +2259,7 @@ def community_features():
                 ], key="global_board")
 
                 if global_board_type == "Total House Points":
-                    st.write("### 🏆 Top House Point Earners")
+                    st.write("### Top House Point Earners")
 
                     rankings = []
                     for username, data in leaderboard_users.items():
@@ -2276,15 +2276,15 @@ def community_features():
                     rankings.sort(key=lambda x: x['points'], reverse=True)
 
                     for idx, user in enumerate(rankings[:20], 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
 
-                        house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                        house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
                         st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['points']:.1f} points")
 
                 elif global_board_type == "Weekly Warriors":
-                    st.write("### 💪 Most Workouts This Week")
+                    st.write("### Most Workouts This Week")
 
                     week_ago = datetime.now() - timedelta(days=7)
                     weekly_counts = []
@@ -2306,14 +2306,14 @@ def community_features():
                     weekly_counts.sort(key=lambda x: x['count'], reverse=True)
 
                     for idx, user in enumerate(weekly_counts[:20], 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                        house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
+                        house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
                         st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['count']} workouts ({user['total_time']} min)")
 
                 elif global_board_type == "Workout Streak":
-                    st.write("### 🔥 Longest Workout Streaks")
+                    st.write("### Longest Workout Streaks")
 
                     streaks = []
                     for username, data in leaderboard_users.items():
@@ -2343,14 +2343,14 @@ def community_features():
                     streaks.sort(key=lambda x: x['streak'], reverse=True)
 
                     for idx, user in enumerate(streaks[:20], 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                        house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
+                        house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
-                        st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['streak']} days 🔥")
+                        st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['streak']} days ")
 
                 else:  # Total Workouts
-                    st.write("### 💪 Most Total Workouts")
+                    st.write("### Most Total Workouts")
 
                     rankings = []
                     for username, data in leaderboard_users.items():
@@ -2366,14 +2366,14 @@ def community_features():
                     rankings.sort(key=lambda x: x['workouts'], reverse=True)
 
                     for idx, user in enumerate(rankings[:20], 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                        house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
+                        house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
                         st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['workouts']} workouts")
 
         with lb_tab2:
-            st.write("### 🏠 House Rankings")
+            st.write("### House Rankings")
             st.write("See how each house member ranks!")
 
             user_house = user_data.get('house')
@@ -2381,8 +2381,8 @@ def community_features():
             if not user_house:
                 st.warning("You need to be in a house to view house rankings!")
             else:
-                house_display = {'yellow': '🟡 Yellow', 'red': '🔴 Red', 'blue': '🔵 Blue',
-                               'green': '🟢 Green', 'black': '⚫ Black'}.get(user_house, user_house.title())
+                house_display = {'yellow': 'Yellow', 'red': 'Red', 'blue': 'Blue',
+                               'green': 'Green', 'black': 'Black'}.get(user_house, user_house.title())
 
                 st.write(f"### {house_display} House Leaderboard")
 
@@ -2438,13 +2438,13 @@ def community_features():
                     rankings.sort(key=lambda x: x['value'], reverse=True)
 
                     for idx, user in enumerate(rankings, 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
 
                         st.write(f"{medal} {highlight}**{user['name']}** - {user['display']}")
 
         with lb_tab3:
-            st.write("### 🏅 NAPFA High Scores")
+            st.write("###  NAPFA High Scores")
             st.write("Record-breaking performances!")
 
             if len(leaderboard_users) == 0:
@@ -2530,24 +2530,24 @@ def community_features():
                         high_scores.sort(key=lambda x: x['score'], reverse=True)
 
                     if high_scores:
-                        st.write(f"### 🏆 Top {score_type} Scores")
+                        st.write(f"### Top {score_type} Scores")
 
                         for idx, user in enumerate(high_scores[:15], 1):
-                            medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                            highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                            house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                            medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                            highlight = "" if user['username'] == st.session_state.username else ""
+                            house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
                             st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} (Age {user['age']}) - {user['display']}")
 
                         # Show record
                         if high_scores:
                             record_holder = high_scores[0]
-                            st.success(f"🏆 **Record:** {record_holder['name']} - {record_holder['display']}")
+                            st.success(f"**Record:** {record_holder['name']} - {record_holder['display']}")
                     else:
                         st.info("No scores available for this component")
 
         with lb_tab4:
-            st.write("### 👥 Friends Leaderboard")
+            st.write("### Friends Leaderboard")
             st.write("Compete with your friends!")
 
             friends = user_data.get('friends', [])
@@ -2621,14 +2621,14 @@ def community_features():
                 rankings.sort(key=lambda x: x['value'], reverse=True)
 
                 for idx, user in enumerate(rankings, 1):
-                    medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                    highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                    house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                    medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                    highlight = "" if user['username'] == st.session_state.username else ""
+                    house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
                     st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['display']}")
 
         with lb_tab5:
-            st.write("### 👫 Group Leaderboards")
+            st.write("### Group Leaderboards")
             st.write("See how your groups rank!")
 
             user_groups = user_data.get('groups', [])
@@ -2685,14 +2685,14 @@ def community_features():
                     rankings.sort(key=lambda x: x['value'], reverse=True)
 
                     for idx, user in enumerate(rankings, 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                        house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
+                        house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
 
                         st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} - {user['display']}")
 
         with lb_tab6:
-            st.write("### 📚 Class Leaderboard")
+            st.write("### Class Leaderboard")
             st.write("See how your classmates are doing!")
 
             teacher_class_key = user_data.get('teacher_class')
@@ -2702,7 +2702,7 @@ def community_features():
             else:
                 teacher_info = st.session_state.users_data[teacher_class_key]
                 class_label = teacher_info.get('class_label') or f"{teacher_info['name']}'s class"
-                st.write(f"### 🏫 {class_label}")
+                st.write(f"### {class_label}")
 
                 # Get classmates (same teacher_class) who opted into leaderboards
                 classmates = {username: data for username, data in leaderboard_users.items()
@@ -2742,13 +2742,13 @@ def community_features():
                     rankings.sort(key=lambda x: x['value'], reverse=True)
 
                     for idx, user in enumerate(rankings, 1):
-                        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-                        highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                        house_emoji = {'yellow': '🟡', 'red': '🔴', 'blue': '🔵', 'green': '🟢', 'black': '⚫'}.get(user['house'], '')
+                        medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
+                        highlight = "" if user['username'] == st.session_state.username else ""
+                        house_emoji = {'yellow': '🟡', 'red': '', 'blue': '', 'green': '🟢', 'black': ''}.get(user['house'], '')
                         st.write(f"{medal} {highlight}**{user['name']}** {house_emoji} — {user['display']}")
 
     with tab3:
-                st.write("### 🔥 Longest Workout Streaks")
+                st.write("### Longest Workout Streaks")
 
                 streaks = []
                 for username, data in leaderboard_users.items():
@@ -2779,20 +2779,20 @@ def community_features():
                 streaks.sort(key=lambda x: x['streak'], reverse=True)
 
                 for idx, user in enumerate(streaks[:10], 1):
-                    medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
+                    medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
 
-                    highlight = "🌟 " if user['username'] == st.session_state.username else ""
-                    st.write(f"{medal} {highlight}**{user['name']}** (@{user['username']}) - {user['streak']} days 🔥")
+                    highlight = "" if user['username'] == st.session_state.username else ""
+                    st.write(f"{medal} {highlight}**{user['name']}** (@{user['username']}) - {user['streak']} days ")
 
     with tab3:
-        st.subheader("🎖️ My Achievements")
+        st.subheader("My Achievements")
 
         # Check for new badges
         new_badges, new_points = check_and_award_badges(user_data)
 
         if new_badges:
             st.balloons()
-            st.success(f"🎉 You earned {len(new_badges)} new badge(s) and {new_points} points!")
+            st.success(f"You earned {len(new_badges)} new badge(s) and {new_points} points!")
 
             for badge in new_badges:
                 user_data['badges'].append(badge)
@@ -2805,7 +2805,7 @@ def community_features():
         user_data['level'] = current_level
         update_user_data(user_data)
 
-        st.write("### 📊 Your Progress")
+        st.write("### Your Progress")
 
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -2821,11 +2821,11 @@ def community_features():
             st.progress(progress)
             st.write(f"**Next Level:** {level_max - user_data.get('total_points', 0)} points to go!")
         else:
-            st.success("🏆 You've reached the maximum level!")
+            st.success("You've reached the maximum level!")
 
         # Display badges
         st.write("")
-        st.write("### 🎖️ Earned Badges")
+        st.write("### Earned Badges")
 
         if user_data.get('badges'):
             # Sort by date
@@ -2847,42 +2847,42 @@ def community_features():
 
         # Available badges to earn
         st.write("")
-        st.write("### 🎯 Available Badges")
+        st.write("### Available Badges")
 
         all_possible_badges = [
-            "🥇 First Gold - Earn your first NAPFA Gold medal",
-            "💯 Perfect Score - All Grade 5s on NAPFA",
-            "💪 Century Club - Complete 100 workouts",
-            "🏋️ Fifty Strong - Complete 50 workouts",
-            "🎯 Getting Started - Complete 10 workouts",
-            "🔥 Week Warrior - 7-day workout streak",
-            "🔥🔥 Month Master - 30-day workout streak",
-            "🌙 Sleep Champion - 7 days of 8+ hours sleep",
-            "🎯 Goal Crusher - Complete 5 goals",
-            "🎯 First Goal - Complete your first goal",
-            "📅 Daily Visitor - 7-day login streak"
+            "First Gold - Earn your first NAPFA Gold medal",
+            "Perfect Score - All Grade 5s on NAPFA",
+            "Century Club - Complete 100 workouts",
+            "Fifty Strong - Complete 50 workouts",
+            "Getting Started - Complete 10 workouts",
+            "Week Warrior - 7-day workout streak",
+            "Month Master - 30-day workout streak",
+            "Sleep Champion - 7 days of 8+ hours sleep",
+            "Goal Crusher - Complete 5 goals",
+            "First Goal - Complete your first goal",
+            "Daily Visitor - 7-day login streak"
         ]
 
         earned_names = [b['name'] for b in user_data.get('badges', [])]
         remaining = [b for b in all_possible_badges if not any(name in b for name in earned_names)]
 
         for badge in remaining:
-            st.write(f"🔒 {badge}")
+            st.write(f" {badge}")
 
     with tab4:
-        st.subheader("👥 Friends")
+        st.subheader("Friends")
 
         # Friend requests
         friend_requests = user_data.get('friend_requests', [])
         if friend_requests:
-            st.write("### 📬 Friend Requests")
+            st.write("### Friend Requests")
             for requester in friend_requests:
                 col1, col2, col3 = st.columns([3, 1, 1])
                 with col1:
                     requester_data = all_users.get(requester, {})
                     st.write(f"**{requester_data.get('name', 'Unknown')}** (@{requester})")
                 with col2:
-                    if st.button("✅ Accept", key=f"accept_{requester}"):
+                    if st.button("Accept", key=f"accept_{requester}"):
                         # Initialize friends arrays if needed
                         if 'friends' not in user_data:
                             user_data['friends'] = []
@@ -2900,13 +2900,13 @@ def community_features():
                         st.success(f"Added {requester} as friend!")
                         st.rerun()
                 with col3:
-                    if st.button("❌ Decline", key=f"decline_{requester}"):
+                    if st.button("Decline", key=f"decline_{requester}"):
                         user_data['friend_requests'].remove(requester)
                         update_user_data(user_data)
                         st.rerun()
 
         # Add friend
-        st.write("### ➕ Add Friend")
+        st.write("### Add Friend")
         st.caption("Enter the exact username (shown in Privacy Settings)")
         new_friend = st.text_input("Enter username", key="add_friend_input", placeholder="e.g., john_doe")
         if st.button("Send Friend Request"):
@@ -2928,21 +2928,21 @@ def community_features():
                     # Add request to target user
                     all_users[new_friend]['friend_requests'].append(st.session_state.username)
                     save_users(all_users)
-                    st.success(f"✅ Friend request sent to {new_friend}!")
+                    st.success(f"Friend request sent to {new_friend}!")
                     st.info(f"They will see your request ({st.session_state.username}) in their Friends tab.")
             else:
-                st.error(f"❌ User '{new_friend.strip()}' not found. Check the spelling!")
-                st.info("💡 Tip: Ask your friend for their exact username from Privacy Settings.")
+                st.error(f"User '{new_friend.strip()}' not found. Check the spelling!")
+                st.info("Tip: Ask your friend for their exact username from Privacy Settings.")
 
         # Friends list
-        st.write("### 👥 My Friends")
+        st.write("### My Friends")
         friends = user_data.get('friends', [])
 
         if friends:
             for friend in friends:
                 friend_data = all_users.get(friend, {})
 
-                with st.expander(f"👤 {friend_data.get('name', 'Unknown')} (@{friend})"):
+                with st.expander(f"{friend_data.get('name', 'Unknown')} (@{friend})"):
                     col1, col2 = st.columns(2)
 
                     with col1:
@@ -2962,7 +2962,7 @@ def community_features():
                     # Recent activity
                     if friend_data.get('badges'):
                         recent_badge = friend_data['badges'][-1]
-                        st.info(f"🎖️ Recently earned: {recent_badge['name']}")
+                        st.info(f"Recently earned: {recent_badge['name']}")
 
                     if st.button(f"Remove Friend", key=f"remove_{friend}"):
                         user_data['friends'].remove(friend)
@@ -2976,7 +2976,7 @@ def community_features():
         # GROUPS SECTION
         st.write("")
         st.write("---")
-        st.write("## 👫 Groups")
+        st.write("## Groups")
         st.write("Create or join groups to workout together!")
 
         # Load groups from database (using a special key)
@@ -2995,7 +2995,7 @@ def community_features():
         group_tab1, group_tab2 = st.tabs(["My Groups", "Create/Join Group"])
 
         with group_tab1:
-            st.write("### 👫 My Groups")
+            st.write("### My Groups")
 
             user_groups = user_data.get('groups', [])
 
@@ -3003,7 +3003,7 @@ def community_features():
                 for group_id in user_groups:
                     group = all_groups.get(group_id, {})
                     if group:
-                        with st.expander(f"👫 {group['name']} ({len(group['members'])}/{group['max_members']} members)"):
+                        with st.expander(f"{group['name']} ({len(group['members'])}/{group['max_members']} members)"):
                             st.write(f"**Type:** {group['type']}")
                             st.write(f"**Description:** {group['description']}")
                             st.write(f"**Admin:** {all_users.get(group['admin'], {}).get('name', 'Unknown')}")
@@ -3014,7 +3014,7 @@ def community_features():
                             st.write("**Members:**")
                             for member in group['members']:
                                 member_data = all_users.get(member, {})
-                                admin_badge = " 👑" if member == group['admin'] else ""
+                                admin_badge = " " if member == group['admin'] else ""
                                 st.write(f"• {member_data.get('name', 'Unknown')} (@{member}){admin_badge}")
 
                             # Group stats
@@ -3036,9 +3036,9 @@ def community_features():
                             member_scores.sort(key=lambda x: x[1], reverse=True)
 
                             for idx, (member, score) in enumerate(member_scores[:5], 1):
-                                medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
+                                medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
                                 member_name = all_users.get(member, {}).get('name', 'Unknown')
-                                highlight = " 🌟" if member == st.session_state.username else ""
+                                highlight = " " if member == st.session_state.username else ""
                                 st.write(f"{medal} {member_name}{highlight} - {score:.1f} points")
 
                             # Invite friends (admin only)
@@ -3081,7 +3081,7 @@ def community_features():
                 st.info("You're not in any groups yet. Create or join one in the other tab!")
 
         with group_tab2:
-            st.write("### 🆕 Create New Group")
+            st.write("### Create New Group")
 
             col1, col2 = st.columns(2)
             with col1:
@@ -3127,7 +3127,7 @@ def community_features():
             
             if group_invites:
                 st.write("")
-                st.write("### 📬 Group Invitations")
+                st.write("### Group Invitations")
 
                 for group_id in group_invites:
                     group = all_groups.get(group_id, {})
@@ -3136,7 +3136,7 @@ def community_features():
                         with col1:
                             st.write(f"**{group['name']}** - {group['type']}")
                         with col2:
-                            if st.button("✅ Join", key=f"join_{group_id}"):
+                            if st.button("Join", key=f"join_{group_id}"):
                                 if len(group['members']) < group['max_members']:
                                     group['members'].append(st.session_state.username)
                                     user_data['groups'].append(group_id)
@@ -3147,25 +3147,25 @@ def community_features():
                                     save_users(st.session_state.users_data)
                                     
                                     update_user_data(user_data)
-                                    st.success(f"✅ Joined {group['name']}!")
+                                    st.success(f"Joined {group['name']}!")
                                     st.rerun()
                                 else:
                                     st.error("Group is full!")
                         with col3:
-                            if st.button("❌", key=f"decline_{group_id}"):
+                            if st.button("Decline", key=f"decline_{group_id}"):
                                 user_data['group_invites'].remove(group_id)
                                 update_user_data(user_data)
                                 st.rerun()
                     else:
                         st.warning(f"Group invitation found but group no longer exists (ID: {group_id[:10]}...)")
             else:
-                st.info("💡 No group invitations yet. Friends will see you in their invite list once they create a group!")
+                st.info("No group invitations yet. Friends will see you in their invite list once they create a group!")
 
     with tab5:
-        st.subheader("⚡ Challenges")
+        st.subheader("Challenges")
 
         # Weekly Challenges
-        st.write("### 🏃 Weekly Challenges")
+        st.write("### Weekly Challenges")
 
         # Define weekly challenges
         weekly_challenges = [
@@ -3196,7 +3196,7 @@ def community_features():
         week_ago = datetime.now() - timedelta(days=7)
 
         for challenge in weekly_challenges:
-            with st.expander(f"{'✅' if challenge['name'] in [c['name'] for c in user_data.get('completed_challenges', [])] else '⚡'} {challenge['name']} (+{challenge['points']} pts)", expanded=True):
+            with st.expander(f"{'' if challenge['name'] in [c['name'] for c in user_data.get('completed_challenges', [])] else ''} {challenge['name']} (+{challenge['points']} pts)", expanded=True):
                 st.write(f"**Goal:** {challenge['description']}")
 
                 # Calculate progress
@@ -3219,7 +3219,7 @@ def community_features():
                 if progress >= challenge['target']:
                     completed_names = [c['name'] for c in user_data.get('completed_challenges', [])]
                     if challenge['name'] not in completed_names:
-                        st.success("🎉 Challenge completed! Points awarded!")
+                        st.success("Challenge completed! Points awarded!")
                         user_data.setdefault('completed_challenges', []).append({
                             'name': challenge['name'],
                             'completed_date': datetime.now().strftime('%Y-%m-%d'),
@@ -3230,7 +3230,7 @@ def community_features():
 
         # Friend Challenges
         st.write("")
-        st.write("### 🤝 Friend Challenges")
+        st.write("###  Friend Challenges")
 
         friends = user_data.get('friends', [])
         if not friends:
@@ -3251,7 +3251,7 @@ def community_features():
 
         # Class Challenges
         st.write("")
-        st.write("### 🏫 Class Challenges")
+        st.write("### Class Challenges")
 
         teacher_class_key = user_data.get('teacher_class')
 
@@ -3266,7 +3266,7 @@ def community_features():
 
             if len(class_members) > 1:
                 st.write(f"**Class Members on leaderboard:** {len(class_members)}")
-                st.info("🎯 **Class Goal:** Average NAPFA score of 20+ by end of month!")
+                st.info("**Class Goal:** Average NAPFA score of 20+ by end of month!")
 
                 napfa_scores = []
                 for data in class_members.values():
@@ -3277,28 +3277,28 @@ def community_features():
                     class_avg = sum(napfa_scores) / len(napfa_scores)
                     st.metric("Current Class Average", f"{class_avg:.1f}/30")
                     if class_avg >= 20:
-                        st.success("🎉 Class goal achieved!")
+                        st.success("Class goal achieved!")
             else:
                 st.info("Not enough class members on leaderboards yet.")
         else:
             st.info("Join a class via **Privacy Settings** to participate in class challenges!")
 
     with tab6:
-        st.subheader("⚙️ Privacy Settings")
+        st.subheader("Privacy Settings")
         
         # Show username
-        st.write("### 👤 Your Account Info")
+        st.write("### Your Account Info")
         st.info(f"""
         **Your Username:** `{st.session_state.username}`  
         **Your Name:** {user_data.get('name')}  
         **Email:** {user_data.get('email')}
         
-        💡 Use your **username** when adding friends or joining groups!
+        Use your **username** when adding friends or joining groups!
         """)
         
         st.write("")
 
-        st.write("### 👁️ Leaderboard Visibility")
+        st.write("### Leaderboard Visibility")
 
         current_setting = user_data.get('show_on_leaderboards', False)
         new_setting = st.checkbox("Show me on public leaderboards", value=current_setting)
@@ -3306,23 +3306,23 @@ def community_features():
         if new_setting != current_setting:
             user_data['show_on_leaderboards'] = new_setting
             update_user_data(user_data)
-            st.success("✅ Settings updated!")
+            st.success("Settings updated!")
             st.rerun()
 
-        st.info("ℹ️ When enabled, your stats will be visible on leaderboards. Your friends can always see your profile.")
+        st.info("When enabled, your stats will be visible on leaderboards. Your friends can always see your profile.")
 
         # Join / Leave Class
         st.write("")
-        st.write("### 🏫 Your Class")
+        st.write("### Your Class")
 
         teacher_class_key = user_data.get('teacher_class')
 
         if teacher_class_key and teacher_class_key in st.session_state.users_data:
             teacher_info = st.session_state.users_data[teacher_class_key]
             class_label = teacher_info.get('class_label') or f"{teacher_info['name']}'s class"
-            st.success(f"✅ You are enrolled in **{class_label}** (Teacher: {teacher_info['name']})")
+            st.success(f"You are enrolled in **{class_label}** (Teacher: {teacher_info['name']})")
 
-            if st.button("🚪 Leave Class", type="secondary"):
+            if st.button("Leave Class", type="secondary"):
                 # Remove student from teacher's list
                 if teacher_class_key in st.session_state.users_data:
                     teacher_students = st.session_state.users_data[teacher_class_key].get('students', [])
@@ -3337,7 +3337,7 @@ def community_features():
         else:
             st.info("You are not enrolled in any class yet.")
             join_code = st.text_input("Enter Class Code from your teacher", placeholder="e.g., ABC123", key="privacy_class_code")
-            if st.button("🎓 Join Class", type="primary"):
+            if st.button("Join Class", type="primary"):
                 if not join_code.strip():
                     st.error("Please enter a class code.")
                 else:
@@ -3355,7 +3355,7 @@ def community_features():
                                     st.session_state.users_data[teacher_username]['students'] = current_students
                                     save_users(st.session_state.users_data)
                                 label = teacher_data_item.get('class_label') or f"{teacher_data_item['name']}'s class"
-                                st.success(f"✅ Joined **{label}**!")
+                                st.success(f"Joined **{label}**!")
                                 st.rerun()
                             matched = True
                             break
@@ -3364,10 +3364,10 @@ def community_features():
 
         # Personal Data Export (Phase 7 BONUS!)
         st.write("")
-        st.write("### 📥 Export Your Data")
+        st.write("### Export Your Data")
         st.write("Download all your personal fitness data")
 
-        if st.button("📥 Download My Data (JSON)", type="secondary"):
+        if st.button("Download My Data (JSON)", type="secondary"):
             import json
 
             # Create exportable data
@@ -3409,30 +3409,30 @@ def community_features():
             json_data = json.dumps(export_data, indent=2)
 
             st.download_button(
-                label="📥 Download JSON File",
+                label="Download JSON File",
                 data=json_data,
                 file_name=f"fittrack_data_{user_data.get('name', 'user')}_{datetime.now().strftime('%Y%m%d')}.json",
                 mime="application/json"
             )
 
-            st.success("✅ Your data is ready for download!")
-            st.info("💡 This JSON file contains all your FitTrack data. Keep it safe as a backup!")
+            st.success("Your data is ready for download!")
+            st.info("This JSON file contains all your FitTrack data. Keep it safe as a backup!")
 
 # AI Insights and Recommendations
 def ai_insights():
-    st.header("🤖 AI Fitness Coach")
+    st.header("AI Fitness Coach")
 
     user_data = get_user_data()
 
     # Create tabs for AI features - cleaned up, removed empty/duplicate tabs
     tab1, tab2, tab3 = st.tabs([
-        "🤖 ML Predictions",
-        "🎯 SMART Goals",
-        "🗓️ AI Schedule Generator"
+        "ML Predictions",
+        "SMART Goals",
+        "AI Schedule Generator"
     ])
 
     with tab1:
-        st.subheader("🤖 Machine Learning Predictions & Statistical Analysis")
+        st.subheader("Machine Learning Predictions & Statistical Analysis")
         st.write("AI-powered predictions based on your performance data")
 
         # Check if enough data
@@ -3442,7 +3442,7 @@ def ai_insights():
         has_exercises = len(user_data.get('exercises', [])) >= 5
 
         # Prediction 1: When will you reach NAPFA Gold?
-        st.write("### 🥇 NAPFA Gold Prediction")
+        st.write("### NAPFA Gold Prediction")
 
         if not has_napfa:
             st.info("Complete your first NAPFA test to get predictions!")
@@ -3451,7 +3451,7 @@ def ai_insights():
             current_score = latest_napfa['total']
 
             if current_score >= 21:
-                st.success(f"🎉 You already have NAPFA Gold! (Score: {current_score}/30)")
+                st.success(f"You already have NAPFA Gold! (Score: {current_score}/30)")
             else:
                 points_needed = 21 - current_score
                 st.info(f"**Current Score:** {current_score}/30")
@@ -3480,7 +3480,7 @@ def ai_insights():
 
                 with col2:
                     if current_score >= 21:
-                        st.success("🥇 Gold Medal Achieved!")
+                        st.success("Gold Medal Achieved!")
                     else:
                         points_needed = 21 - current_score
                         if avg_improvement_per_day > 0:
@@ -3491,12 +3491,12 @@ def ai_insights():
                             st.metric("Points to Gold", points_needed)
                             st.metric("Predicted Gold Date", predicted_date.strftime('%B %Y'))
 
-                            st.info(f"📅 At your current rate, you'll reach Gold in ~{months_to_gold:.1f} months!")
+                            st.info(f"At your current rate, you'll reach Gold in ~{months_to_gold:.1f} months!")
                         else:
                             st.warning("Your score is decreasing. Focus on training to improve!")
 
                 # Show prediction chart
-                st.write("### 📈 Score Projection")
+                st.write("### Score Projection")
 
                 # Project next 6 months
                 future_dates = [datetime.now() + timedelta(days=30*i) for i in range(7)]
@@ -3516,7 +3516,7 @@ def ai_insights():
         st.write("---")
 
         # Prediction 2: Sleep Impact on Performance
-        st.write("### 😴 Sleep Impact Analysis")
+        st.write("### Sleep Impact Analysis")
 
         if not has_sleep or not has_napfa:
             st.info("Track sleep for 7+ days and complete NAPFA to see correlation!")
@@ -3543,7 +3543,7 @@ def ai_insights():
             else:
                 performance_rating = "Below Optimal"
                 color = "#ff9800"
-                insight = "⚠️ Poor sleep is limiting your performance. Getting 8+ hours could improve your score by ~5 points!"
+                insight = "Poor sleep is limiting your performance. Getting 8+ hours could improve your score by ~5 points!"
                 predicted_improvement = 5
 
             col1, col2 = st.columns(2)
@@ -3556,7 +3556,7 @@ def ai_insights():
                 if predicted_improvement > 0:
                     st.metric("Potential Gain", f"+{predicted_improvement:.1f} points")
 
-            st.info(f"💡 **Insight:** {insight}")
+            st.info(f"**Insight:** {insight}")
 
             # Show correlation
             st.write("**Research shows:** Students who sleep 8+ hours score on average 15% higher on NAPFA tests.")
@@ -3564,7 +3564,7 @@ def ai_insights():
         st.write("---")
 
         # Prediction 3: Injury Risk Prediction
-        st.write("### 🏥 Injury Risk Assessment")
+        st.write("### Injury Risk Assessment")
 
         if not has_exercises:
             st.info("Log 5+ workouts to get injury risk analysis!")
@@ -3592,35 +3592,35 @@ def ai_insights():
 
             if high_intensity_ratio > 0.7:
                 risk_score += 30
-                risk_factors.append("⚠️ Too many high-intensity workouts (>70%)")
+                risk_factors.append("Too many high-intensity workouts (>70%)")
 
             if workouts_per_week > 6:
                 risk_score += 25
-                risk_factors.append("⚠️ Insufficient rest days (<1 per week)")
+                risk_factors.append("Insufficient rest days (<1 per week)")
 
             if workouts_per_week < 2:
                 risk_score += 15
-                risk_factors.append("⚠️ Inconsistent training increases injury risk")
+                risk_factors.append("Inconsistent training increases injury risk")
 
             # Sleep factor
             if has_sleep:
                 if avg_sleep_hours < 7:
                     risk_score += 20
-                    risk_factors.append("⚠️ Poor sleep reduces recovery")
+                    risk_factors.append("Poor sleep reduces recovery")
 
             # Determine risk level
             if risk_score >= 50:
                 risk_level = "High Risk"
                 risk_color = "#f44336"
-                recommendation = "🚨 REDUCE intensity and take more rest days!"
+                recommendation = " REDUCE intensity and take more rest days!"
             elif risk_score >= 25:
                 risk_level = "Moderate Risk"
                 risk_color = "#ff9800"
-                recommendation = "⚠️ Balance your training intensity and rest."
+                recommendation = "Balance your training intensity and rest."
             else:
                 risk_level = "Low Risk"
                 risk_color = "#4caf50"
-                recommendation = "✅ Your training is well-balanced!"
+                recommendation = "Your training is well-balanced!"
 
             st.markdown(f'<div class="stat-card" style="background: {risk_color}; color: white;"><h2>Risk Level: {risk_level}</h2><p>{recommendation}</p></div>', unsafe_allow_html=True)
 
@@ -3638,7 +3638,7 @@ def ai_insights():
             st.write("5. Listen to your body - rest if you feel pain")
 
     with tab2:
-        st.subheader("🎯 SMART Goals System")
+        st.subheader("SMART Goals System")
         st.write("Set Specific, Measurable, Achievable, Relevant, and Time-bound goals")
 
         # Initialize smart_goals if it doesn't exist
@@ -3660,7 +3660,7 @@ def ai_insights():
             )
 
             # Specific
-            st.write("#### 📝 Specific - What exactly do you want to achieve?")
+            st.write("#### Specific - What exactly do you want to achieve?")
 
             if goal_category == "NAPFA Improvement":
                 specific_options = [
@@ -3707,7 +3707,7 @@ def ai_insights():
                 specific_goal = f"Workout {workout_days} days/week for {duration} weeks"
 
             # Measurable
-            st.write("#### 📊 Measurable - How will you track progress?")
+            st.write("#### Measurable - How will you track progress?")
             tracking_method = st.multiselect(
                 "Tracking methods",
                 ["Weekly NAPFA practice tests", "Daily workout logs", "Weekly measurements",
@@ -3716,7 +3716,7 @@ def ai_insights():
             )
 
             # Achievable - AI calculates
-            st.write("#### ✅ Achievable - Is this realistic?")
+            st.write("#### Achievable - Is this realistic?")
 
             # Calculate if goal is achievable based on current data
             timeline_weeks = st.slider("Timeline (weeks)", min_value=1, max_value=52, value=12)
@@ -3729,12 +3729,12 @@ def ai_insights():
                     current_napfa = user_data['napfa_history'][-1]['total']
                     if "Gold" in specific_goal and current_napfa < 15 and timeline_weeks < 12:
                         achievability = "Very Challenging"
-                        ai_feedback = "⚠️ This is ambitious! Consider extending timeline to 16+ weeks."
+                        ai_feedback = "This is ambitious! Consider extending timeline to 16+ weeks."
                     elif current_napfa >= 18:
                         achievability = "Highly Achievable"
-                        ai_feedback = "✅ Great goal! You're close to Gold already."
+                        ai_feedback = "Great goal! You're close to Gold already."
                     else:
-                        ai_feedback = "✅ Realistic with consistent training!"
+                        ai_feedback = "Realistic with consistent training!"
 
             elif goal_category == "Weight Management":
                 weight_change = abs(target_weight - current_weight)
@@ -3743,14 +3743,14 @@ def ai_insights():
 
                 if timeline_weeks < safe_weeks * 0.7:
                     achievability = "Too Aggressive"
-                    ai_feedback = f"⚠️ Recommended timeline: {int(safe_weeks)} weeks for safe {weight_change}kg change"
+                    ai_feedback = f"Recommended timeline: {int(safe_weeks)} weeks for safe {weight_change}kg change"
                 else:
-                    ai_feedback = "✅ Safe and achievable rate!"
+                    ai_feedback = "Safe and achievable rate!"
 
             st.info(f"**AI Assessment:** {achievability} - {ai_feedback}")
 
             # Relevant
-            st.write("#### 🎯 Relevant - Why is this important to you?")
+            st.write("#### Relevant - Why is this important to you?")
             motivation = st.text_area("Your motivation",
                                      placeholder="e.g., I want to improve my fitness for school sports...")
 
@@ -3760,7 +3760,7 @@ def ai_insights():
                                         value=datetime.now() + timedelta(weeks=timeline_weeks))
 
             # AI generates milestones
-            st.write("### 📅 AI-Generated Weekly Milestones")
+            st.write("### AI-Generated Weekly Milestones")
 
             weeks = (target_date - datetime.now().date()).days // 7
             if weeks > 0:
@@ -3796,7 +3796,7 @@ def ai_insights():
                     st.write(milestone)
 
             # Save goal
-            if st.button("💾 Save SMART Goal", type="primary"):
+            if st.button(" Save SMART Goal", type="primary"):
                 smart_goal = {
                     'category': goal_category,
                     'specific': specific_goal,
@@ -3813,7 +3813,7 @@ def ai_insights():
                 user_data['smart_goals'].append(smart_goal)
                 update_user_data(user_data)
 
-                st.success("✅ SMART Goal created!")
+                st.success("SMART Goal created!")
                 st.balloons()
                 time.sleep(1)
                 st.rerun()
@@ -3825,7 +3825,7 @@ def ai_insights():
                 st.info("No SMART goals yet. Create your first goal in the other tab!")
             else:
                 for idx, goal in enumerate(user_data['smart_goals']):
-                    with st.expander(f"🎯 {goal['specific']}", expanded=True):
+                    with st.expander(f"{goal['specific']}", expanded=True):
                         col1, col2 = st.columns(2)
 
                         with col1:
@@ -3872,14 +3872,14 @@ def ai_insights():
                                 st.write(milestone)
 
                         # Delete goal
-                        if st.button("🗑️ Delete Goal", key=f"delete_{idx}"):
+                        if st.button(" Delete Goal", key=f"delete_{idx}"):
                             user_data['smart_goals'].pop(idx)
                             update_user_data(user_data)
                             st.rerun()
 
 
     with tab3:
-        st.subheader("🗓️ Comprehensive AI Schedule Generator")
+        st.subheader("Comprehensive AI Schedule Generator")
         st.write("Generate a complete personalized schedule based on your fitness data!")
 
         # Check if user has necessary data
@@ -3888,16 +3888,16 @@ def ai_insights():
         has_sleep = len(user_data.get('sleep_history', [])) > 0
 
         if not has_napfa or not has_bmi or not has_sleep:
-            st.warning("⚠️ To generate a complete schedule, please complete:")
+            st.warning("To generate a complete schedule, please complete:")
             if not has_napfa:
-                st.write("- ❌ NAPFA Test")
+                st.write("- NAPFA Test")
             if not has_bmi:
-                st.write("- ❌ BMI Calculation")
+                st.write("- BMI Calculation")
             if not has_sleep:
-                st.write("- ❌ Sleep Tracking (at least 3 days)")
+                st.write("- Sleep Tracking (at least 3 days)")
             st.info("Once you have this data, come back to generate your personalized schedule!")
         else:
-            st.success("✅ All data available! Ready to generate your schedule.")
+            st.success("All data available! Ready to generate your schedule.")
 
             # Get latest data
             latest_napfa = user_data['napfa_history'][-1]
@@ -3911,7 +3911,7 @@ def ai_insights():
             )
 
             # Display current data
-            st.write("### 📊 Your Current Data")
+            st.write("### Your Current Data")
 
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -3930,7 +3930,7 @@ def ai_insights():
             st.write("---")
 
             # School schedule input
-            st.write("### 🏫 Your School Schedule")
+            st.write("### Your School Schedule")
 
             col1, col2 = st.columns(2)
             with col1:
@@ -3945,9 +3945,9 @@ def ai_insights():
                                            key="weekend_sched")
 
             # Generate button
-            if st.button("🚀 Generate My Complete Schedule", type="primary"):
+            if st.button(" Generate My Complete Schedule", type="primary"):
                 st.write("---")
-                st.success("✅ Your Personalized Schedule Generated!")
+                st.success("Your Personalized Schedule Generated!")
 
                 # Analyze NAPFA weaknesses
                 weak_stations = []
@@ -3961,7 +3961,7 @@ def ai_insights():
                 focus_flexibility = 'SAR' in weak_stations
 
                 # Weekly schedule
-                st.write("### 📅 Your Weekly Training Schedule")
+                st.write("### Your Weekly Training Schedule")
 
                 schedule_data = {
                     "Monday": [],
@@ -3975,31 +3975,31 @@ def ai_insights():
 
                 # Build schedule based on analysis
                 if focus_cardio:
-                    schedule_data["Monday"].append({"time": "06:00-06:45", "activity": "🏃 Morning Run (2-3km)", "type": "Cardio"})
-                    schedule_data["Wednesday"].append({"time": "17:30-18:15", "activity": "🏃 Interval Training", "type": "Cardio"})
-                    schedule_data["Friday"].append({"time": "17:30-18:30", "activity": "🏃 Long Distance Run (3-4km)", "type": "Cardio"})
+                    schedule_data["Monday"].append({"time": "06:00-06:45", "activity": "Morning Run (2-3km)", "type": "Cardio"})
+                    schedule_data["Wednesday"].append({"time": "17:30-18:15", "activity": "Interval Training", "type": "Cardio"})
+                    schedule_data["Friday"].append({"time": "17:30-18:30", "activity": "Long Distance Run (3-4km)", "type": "Cardio"})
 
                 if focus_strength:
-                    schedule_data["Tuesday"].append({"time": "17:30-18:30", "activity": "💪 Upper Body: Pull-ups, Push-ups, Sit-ups", "type": "Strength"})
-                    schedule_data["Thursday"].append({"time": "17:30-18:30", "activity": "💪 Core & Lower Body: Planks, Squats, Lunges", "type": "Strength"})
-                    schedule_data["Saturday"].append({"time": "09:00-10:00", "activity": "💪 Full Body Circuit Training", "type": "Strength"})
+                    schedule_data["Tuesday"].append({"time": "17:30-18:30", "activity": "Upper Body: Pull-ups, Push-ups, Sit-ups", "type": "Strength"})
+                    schedule_data["Thursday"].append({"time": "17:30-18:30", "activity": "Core & Lower Body: Planks, Squats, Lunges", "type": "Strength"})
+                    schedule_data["Saturday"].append({"time": "09:00-10:00", "activity": "Full Body Circuit Training", "type": "Strength"})
 
                 if focus_flexibility:
-                    schedule_data["Monday"].append({"time": "19:30-20:00", "activity": "🧘 Stretching & Flexibility", "type": "Flexibility"})
-                    schedule_data["Wednesday"].append({"time": "19:30-20:00", "activity": "🧘 Yoga/Stretching", "type": "Flexibility"})
-                    schedule_data["Friday"].append({"time": "19:30-20:00", "activity": "🧘 Deep Stretching", "type": "Flexibility"})
+                    schedule_data["Monday"].append({"time": "19:30-20:00", "activity": " Stretching & Flexibility", "type": "Flexibility"})
+                    schedule_data["Wednesday"].append({"time": "19:30-20:00", "activity": " Yoga/Stretching", "type": "Flexibility"})
+                    schedule_data["Friday"].append({"time": "19:30-20:00", "activity": " Deep Stretching", "type": "Flexibility"})
 
                 # Add general workouts if no specific weaknesses
                 if not weak_stations:
-                    schedule_data["Monday"].append({"time": "06:00-06:45", "activity": "🏃 Morning Run (3km)", "type": "Cardio"})
-                    schedule_data["Tuesday"].append({"time": "17:30-18:30", "activity": "💪 Strength Training", "type": "Strength"})
-                    schedule_data["Wednesday"].append({"time": "06:00-06:45", "activity": "🏃 Speed Work", "type": "Cardio"})
-                    schedule_data["Thursday"].append({"time": "17:30-18:30", "activity": "💪 Core & Upper Body", "type": "Strength"})
-                    schedule_data["Friday"].append({"time": "17:30-18:30", "activity": "🏃 Endurance Run", "type": "Cardio"})
-                    schedule_data["Saturday"].append({"time": "09:00-10:00", "activity": "🧘 Flexibility & Recovery", "type": "Flexibility"})
+                    schedule_data["Monday"].append({"time": "06:00-06:45", "activity": "Morning Run (3km)", "type": "Cardio"})
+                    schedule_data["Tuesday"].append({"time": "17:30-18:30", "activity": "Strength Training", "type": "Strength"})
+                    schedule_data["Wednesday"].append({"time": "06:00-06:45", "activity": "Speed Work", "type": "Cardio"})
+                    schedule_data["Thursday"].append({"time": "17:30-18:30", "activity": "Core & Upper Body", "type": "Strength"})
+                    schedule_data["Friday"].append({"time": "17:30-18:30", "activity": "Endurance Run", "type": "Cardio"})
+                    schedule_data["Saturday"].append({"time": "09:00-10:00", "activity": " Flexibility & Recovery", "type": "Flexibility"})
 
                 # Add rest day
-                schedule_data["Sunday"].append({"time": "All Day", "activity": "😌 Rest & Recovery", "type": "Rest"})
+                schedule_data["Sunday"].append({"time": "All Day", "activity": " Rest & Recovery", "type": "Rest"})
 
                 # Display schedule
                 for day, activities in schedule_data.items():
@@ -4023,7 +4023,7 @@ def ai_insights():
 
                 # Diet recommendations
                 st.write("---")
-                st.write("### 🍽️ Nutrition Plan")
+                st.write("###  Nutrition Plan")
 
                 if latest_bmi < 18.5:
                     st.info("**Goal:** Healthy weight gain with muscle building")
@@ -4052,10 +4052,10 @@ def ai_insights():
 
                 # Sleep recommendations
                 st.write("---")
-                st.write("### 😴 Sleep Schedule")
+                st.write("### Sleep Schedule")
 
                 if avg_sleep < 8:
-                    st.warning(f"⚠️ You're averaging {avg_sleep:.1f}h - aim for 8-10h for teens!")
+                    st.warning(f"You're averaging {avg_sleep:.1f}h - aim for 8-10h for teens!")
                     st.write("""
                     **Target:** 8-10 hours per night
                     - **Bedtime:** 22:00-22:30
@@ -4064,7 +4064,7 @@ def ai_insights():
                     - **Weekend:** Keep similar schedule (±1 hour)
                     """)
                 else:
-                    st.success(f"✅ Great sleep average: {avg_sleep:.1f}h - keep it up!")
+                    st.success(f"Great sleep average: {avg_sleep:.1f}h - keep it up!")
                     st.write("""
                     **Target:** Maintain 8-10 hours per night
                     - **Bedtime:** 22:00-22:30
@@ -4075,7 +4075,7 @@ def ai_insights():
                 # Specific recommendations based on weaknesses
                 if weak_stations:
                     st.write("---")
-                    st.write("### 🎯 Focus Areas (Based on NAPFA Weaknesses)")
+                    st.write("### Focus Areas (Based on NAPFA Weaknesses)")
 
                     station_names = {
                         'SU': 'Sit-ups',
@@ -4089,41 +4089,41 @@ def ai_insights():
                     for station in weak_stations:
                         st.write(f"**{station_names.get(station, station)}** - Grade {['F', 'E', 'D', 'C', 'B', 'A'][latest_napfa['grades'].get(station, 0)]}")
 
-                    st.info("💡 Your training schedule above is customized to improve these areas. Stay consistent!")
+                    st.info("Your training schedule above is customized to improve these areas. Stay consistent!")
 
                 st.write("---")
-                st.success("💪 Schedule generated! Track your progress in the Exercise Log and NAPFA Test sections.")
+                st.success("Schedule generated! Track your progress in the Exercise Log and NAPFA Test sections.")
 
 
 def reminders_and_progress():
-    st.header("📊 Weekly Progress Report")
+    st.header("Weekly Progress Report")
 
     user_data = get_user_data()
 
     # Quick Stats Widget (Phase 7 BONUS!)
-    st.markdown("### ⚡ Quick Stats")
+    st.markdown("### Quick Stats")
 
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
         total_workouts = len(user_data.get('exercises', []))
-        st.metric("💪 Total Workouts", total_workouts)
+        st.metric("Total Workouts", total_workouts)
 
     with col2:
         house_points = user_data.get('house_points_contributed', 0)
-        st.metric("🏠 House Points", f"{house_points:.1f}")
+        st.metric("House Points", f"{house_points:.1f}")
 
     with col3:
         total_badges = len(user_data.get('badges', []))
-        st.metric("🎖️ Badges", total_badges)
+        st.metric("Badges", total_badges)
 
     with col4:
         level = user_data.get('level', 'Novice')
-        st.metric("⭐ Level", level)
+        st.metric(" Level", level)
 
     with col5:
         streak = user_data.get('login_streak', 0)
-        st.metric("🔥 Streak", f"{streak} days")
+        st.metric("Streak", f"{streak} days")
 
     # Show progress bar for current level
     total_points = user_data.get('total_points', 0)
@@ -4132,12 +4132,12 @@ def reminders_and_progress():
     if max_points > min_points:
         progress = min(100, ((total_points - min_points) / (max_points - min_points)) * 100)
         st.progress(progress / 100)
-        st.caption(f"🎯 {total_points} / {max_points} points to next level")
+        st.caption(f"{total_points} / {max_points} points to next level")
 
     st.write("---")
 
     # Reminder Bar at the top
-    st.markdown("### 🔔 Today's Reminders")
+    st.markdown("###  Today's Reminders")
 
     today = datetime.now().strftime('%A')
     today_date = datetime.now().strftime('%Y-%m-%d')
@@ -4149,7 +4149,7 @@ def reminders_and_progress():
         for activity in today_activities:
             st.info(f"⏰ **Today:** {activity['activity']} - {activity['time']} ({activity['duration']} min)")
     else:
-        st.success(f"✅ No workouts scheduled for {today}. Good rest day or add a session!")
+        st.success(f"No workouts scheduled for {today}. Good rest day or add a session!")
 
     # Smart reminders based on data
     reminders = []
@@ -4159,31 +4159,31 @@ def reminders_and_progress():
         last_napfa_date = datetime.strptime(user_data['napfa_history'][-1]['date'], '%Y-%m-%d')
         days_since_napfa = (datetime.now() - last_napfa_date).days
         if days_since_napfa > 30:
-            reminders.append(f"📝 It's been {days_since_napfa} days since your last NAPFA test. Consider retesting to track progress!")
+            reminders.append(f"It's been {days_since_napfa} days since your last NAPFA test. Consider retesting to track progress!")
 
     # Check last BMI
     if user_data.get('bmi_history'):
         last_bmi_date = datetime.strptime(user_data['bmi_history'][-1]['date'], '%Y-%m-%d')
         days_since_bmi = (datetime.now() - last_bmi_date).days
         if days_since_bmi > 14:
-            reminders.append(f"⚖️ Update your BMI - last recorded {days_since_bmi} days ago")
+            reminders.append(f" Update your BMI - last recorded {days_since_bmi} days ago")
 
     # Check sleep tracking
     if user_data.get('sleep_history'):
         last_sleep_date = datetime.strptime(user_data['sleep_history'][-1]['date'], '%Y-%m-%d')
         if last_sleep_date.strftime('%Y-%m-%d') != today_date:
-            reminders.append("😴 Don't forget to log your sleep from last night!")
+            reminders.append("Don't forget to log your sleep from last night!")
     else:
-        reminders.append("😴 Start tracking your sleep for better recovery insights!")
+        reminders.append("Start tracking your sleep for better recovery insights!")
 
     # Check exercise logging
     if user_data.get('exercises'):
         last_exercise_date = datetime.strptime(user_data['exercises'][0]['date'], '%Y-%m-%d')
         days_since_exercise = (datetime.now() - last_exercise_date).days
         if days_since_exercise > 2:
-            reminders.append(f"💪 It's been {days_since_exercise} days since your last logged workout. Time to get moving!")
+            reminders.append(f"It's been {days_since_exercise} days since your last logged workout. Time to get moving!")
     else:
-        reminders.append("💪 Start logging your exercises to track your fitness journey!")
+        reminders.append("Start logging your exercises to track your fitness journey!")
 
     # Check goals progress
     if user_data.get('goals'):
@@ -4191,24 +4191,24 @@ def reminders_and_progress():
             target_date = datetime.strptime(goal['date'], '%Y-%m-%d')
             days_until = (target_date - datetime.now()).days
             if 0 <= days_until <= 7:
-                reminders.append(f"🎯 Goal deadline approaching: '{goal['target']}' in {days_until} days!")
+                reminders.append(f"Goal deadline approaching: '{goal['target']}' in {days_until} days!")
 
     if reminders:
-        st.markdown("### 💡 Smart Reminders")
+        st.markdown("### Smart Reminders")
         for reminder in reminders:
             st.warning(reminder)
 
     st.write("---")
 
     # Weekly Progress Report
-    st.markdown("### 📈 Your Weekly Summary")
+    st.markdown("### Your Weekly Summary")
 
     # Calculate date range
     today = datetime.now()
     week_ago = today - timedelta(days=7)
 
     # Create tabs for different metrics
-    tab1, tab2, tab3, tab4 = st.tabs(["📊 Overview", "💪 Exercise Stats", "😴 Sleep Analysis", "🏃 NAPFA Progress"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Overview", "Exercise Stats", "Sleep Analysis", "NAPFA Progress"])
 
     with tab1:
         st.subheader("This Week at a Glance")
@@ -4241,7 +4241,7 @@ def reminders_and_progress():
 
         # All-time stats
         st.write("")
-        st.markdown("#### 📚 All-Time Statistics")
+        st.markdown("#### All-Time Statistics")
 
         col1, col2, col3, col4 = st.columns(4)
 
@@ -4257,7 +4257,7 @@ def reminders_and_progress():
         # Workout consistency
         if user_data.get('exercises'):
             st.write("")
-            st.markdown("#### 🔥 Workout Consistency")
+            st.markdown("#### Workout Consistency")
 
             # Get unique workout dates
             workout_dates = list(set([e['date'] for e in user_data.get('exercises', [])]))
@@ -4279,12 +4279,12 @@ def reminders_and_progress():
                         break
 
                 if streak >= 3:
-                    st.success(f"🔥 {streak} day streak! Keep it up!")
+                    st.success(f"{streak} day streak! Keep it up!")
                 else:
                     st.info(f"Current streak: {streak} days. Aim for 3+ for consistency!")
 
     with tab4:
-        st.subheader("🏃 NAPFA Performance")
+        st.subheader("NAPFA Performance")
 
         if not user_data.get('napfa_history'):
             st.info("No NAPFA tests recorded yet. Complete your first test to track progress!")
@@ -4339,14 +4339,14 @@ def reminders_and_progress():
                 improvement = latest_score - first_score
 
                 if improvement > 0:
-                    st.success(f"📈 You've improved by {improvement} points since your first test!")
+                    st.success(f"You've improved by {improvement} points since your first test!")
                 elif improvement < 0:
-                    st.warning(f"📉 Score decreased by {abs(improvement)} points. Review your training plan.")
+                    st.warning(f" Score decreased by {abs(improvement)} points. Review your training plan.")
                 else:
                     st.info("Score unchanged. Time to push harder!")
 
     with tab2:
-        st.subheader("💪 Exercise Statistics")
+        st.subheader("Exercise Statistics")
 
         if not user_data.get('exercises'):
             st.info("No exercises logged yet. Start logging your workouts!")
@@ -4401,7 +4401,7 @@ def reminders_and_progress():
                 st.write(f"• {ex['date']}: {ex['name']} - {ex['duration']}min ({ex['intensity']} intensity)")
 
     with tab3:
-        st.subheader("😴 Sleep Analysis")
+        st.subheader("Sleep Analysis")
 
         if not user_data.get('sleep_history'):
             st.info("No sleep data yet. Start tracking your sleep!")
@@ -4428,13 +4428,13 @@ def reminders_and_progress():
             st.write("**Sleep Quality Distribution:**")
             col1, col2, col3, col4 = st.columns(4)
             with col1:
-                st.metric("😊 Excellent", quality_counts['Excellent'])
+                st.metric(" Excellent", quality_counts['Excellent'])
             with col2:
-                st.metric("👍 Good", quality_counts['Good'])
+                st.metric("Good", quality_counts['Good'])
             with col3:
-                st.metric("😐 Fair", quality_counts['Fair'])
+                st.metric(" Fair", quality_counts['Fair'])
             with col4:
-                st.metric("😴 Poor", quality_counts['Poor'])
+                st.metric("Poor", quality_counts['Poor'])
 
             # Sleep trend
             if len(sleep_data) > 1:
@@ -4449,11 +4449,11 @@ def reminders_and_progress():
             st.write("")
             st.write("**Insights:**")
             if avg_hours >= 8:
-                st.success("✅ Excellent sleep habits! Keep it up for optimal recovery and performance.")
+                st.success("Excellent sleep habits! Keep it up for optimal recovery and performance.")
             elif avg_hours >= 7:
-                st.info("👍 Good sleep duration. Try to get closer to 8-10 hours for peak performance.")
+                st.info("Good sleep duration. Try to get closer to 8-10 hours for peak performance.")
             else:
-                st.warning("⚠️ You're not getting enough sleep. Aim for 8-10 hours for teenagers!")
+                st.warning("You're not getting enough sleep. Aim for 8-10 hours for teenagers!")
 
             # Best and worst
             if len(sleep_data) >= 3:
@@ -4466,20 +4466,20 @@ def reminders_and_progress():
 
 # Advanced Health Metrics
 def advanced_metrics():
-    st.header("🏥 Advanced Health Metrics")
+    st.header("Advanced Health Metrics")
     st.write("Track detailed health and fitness metrics")
 
     user_data = get_user_data()
 
     # Create tabs
     tab1, tab2, tab3 = st.tabs([
-        "🔥 BMR & Calories",
-        "❤️ Heart Rate Zones",
-        "📐 Body Composition"
+        "BMR & Calories",
+        "Heart Rate Zones",
+        "Body Composition"
     ])
 
     with tab1:
-        st.subheader("🔥 Basal Metabolic Rate (BMR) Calculator")
+        st.subheader("Basal Metabolic Rate (BMR) Calculator")
         st.write("Calculate your daily calorie needs")
 
         # Get user data
@@ -4574,7 +4574,7 @@ def advanced_metrics():
             with col1:
                 st.markdown("""
                 <div class="stat-card" style="background: #f44336; color: white;">
-                    <h3>💪 Weight Loss</h3>
+                    <h3>Weight Loss</h3>
                     <h2>{:.0f} cal/day</h2>
                     <p>Deficit: -500 cal/day</p>
                     <p>Rate: -0.5kg/week</p>
@@ -4584,7 +4584,7 @@ def advanced_metrics():
             with col2:
                 st.markdown("""
                 <div class="stat-card" style="background: #4caf50; color: white;">
-                    <h3>⚖️ Maintenance</h3>
+                    <h3> Maintenance</h3>
                     <h2>{:.0f} cal/day</h2>
                     <p>No deficit/surplus</p>
                     <p>Maintain weight</p>
@@ -4594,7 +4594,7 @@ def advanced_metrics():
             with col3:
                 st.markdown("""
                 <div class="stat-card" style="background: #2196f3; color: white;">
-                    <h3>🏋️ Muscle Gain</h3>
+                    <h3>Muscle Gain</h3>
                     <h2>{:.0f} cal/day</h2>
                     <p>Surplus: +300 cal/day</p>
                     <p>Rate: +0.25kg/week</p>
@@ -4638,7 +4638,7 @@ def advanced_metrics():
             update_user_data(user_data)
 
     with tab2:
-        st.subheader("❤️ Heart Rate Training Zones")
+        st.subheader("Heart Rate Training Zones")
         st.write("Optimize your training with heart rate zones")
 
         # Calculate max heart rate
@@ -4718,7 +4718,7 @@ def advanced_metrics():
 
         # NAPFA-specific recommendations
         st.write("")
-        st.write("### 🏃 NAPFA Training Recommendations")
+        st.write("### NAPFA Training Recommendations")
 
         st.info("""
         **For 2.4km Run:**
@@ -4749,7 +4749,7 @@ def advanced_metrics():
             st.success("Resting heart rate saved!")
 
     with tab3:
-        st.subheader("📐 Body Composition Analyzer")
+        st.subheader("Body Composition Analyzer")
         st.write("Estimate body fat percentage using the Navy Method")
 
         # Get user data
@@ -4766,7 +4766,7 @@ def advanced_metrics():
             default_height = 165.0
 
         st.write("### Body Measurements")
-        st.info("💡 **Tip:** Use a measuring tape and measure at the widest/thickest point. Take measurements in the morning for consistency.")
+        st.info("**Tip:** Use a measuring tape and measure at the widest/thickest point. Take measurements in the morning for consistency.")
 
         col1, col2 = st.columns(2)
 
@@ -4812,44 +4812,44 @@ def advanced_metrics():
                 if body_fat_pct < 6:
                     category = "Essential Fat Only"
                     color = "#2196f3"
-                    desc = "⚠️ Too low - health risks"
+                    desc = "Too low - health risks"
                 elif body_fat_pct < 14:
                     category = "Athletes"
                     color = "#4caf50"
-                    desc = "✅ Athletic/Fit"
+                    desc = "Athletic/Fit"
                 elif body_fat_pct < 18:
                     category = "Fitness"
                     color = "#8bc34a"
-                    desc = "✅ Good fitness level"
+                    desc = "Good fitness level"
                 elif body_fat_pct < 25:
                     category = "Average"
                     color = "#ffc107"
-                    desc = "📊 Average range"
+                    desc = "Average range"
                 else:
                     category = "Above Average"
                     color = "#ff9800"
-                    desc = "⚠️ Consider reducing"
+                    desc = "Consider reducing"
             else:
                 if body_fat_pct < 14:
                     category = "Essential Fat Only"
                     color = "#2196f3"
-                    desc = "⚠️ Too low - health risks"
+                    desc = "Too low - health risks"
                 elif body_fat_pct < 21:
                     category = "Athletes"
                     color = "#4caf50"
-                    desc = "✅ Athletic/Fit"
+                    desc = "Athletic/Fit"
                 elif body_fat_pct < 25:
                     category = "Fitness"
                     color = "#8bc34a"
-                    desc = "✅ Good fitness level"
+                    desc = "Good fitness level"
                 elif body_fat_pct < 32:
                     category = "Average"
                     color = "#ffc107"
-                    desc = "📊 Average range"
+                    desc = "Average range"
                 else:
                     category = "Above Average"
                     color = "#ff9800"
-                    desc = "⚠️ Consider reducing"
+                    desc = "Consider reducing"
 
             # Display results
             st.write("---")
@@ -4893,7 +4893,7 @@ def advanced_metrics():
 
             # Reference ranges
             st.write("")
-            st.write("### 📊 Reference Ranges by Category")
+            st.write("### Reference Ranges by Category")
 
             if gender == 'm':
                 ref_data = {
@@ -4910,11 +4910,11 @@ def advanced_metrics():
 
             # Recommendations
             st.write("")
-            st.write("### 💡 Personalized Recommendations")
+            st.write("### Personalized Recommendations")
 
             if body_fat_pct < (6 if gender == 'm' else 14):
                 st.warning("""
-                **⚠️ Body Fat Too Low**
+                **Body Fat Too Low**
                 - Increase calorie intake
                 - Focus on healthy fats (nuts, avocado, olive oil)
                 - Reduce intense cardio, increase strength training
@@ -4922,7 +4922,7 @@ def advanced_metrics():
                 """)
             elif body_fat_pct > (25 if gender == 'm' else 32):
                 st.info("""
-                **🎯 Body Fat Reduction Tips**
+                **Body Fat Reduction Tips**
                 - Create moderate calorie deficit (300-500 cal/day)
                 - Increase protein intake (1.6-2.0g per kg)
                 - Combine cardio (3-4x/week) with strength training (3x/week)
@@ -4931,7 +4931,7 @@ def advanced_metrics():
                 """)
             else:
                 st.success("""
-                **✅ Healthy Range - Maintenance Tips**
+                **Healthy Range - Maintenance Tips**
                 - Continue current training routine
                 - Maintain balanced diet
                 - Focus on NAPFA performance improvements
@@ -4941,7 +4941,7 @@ def advanced_metrics():
 
             # NAPFA correlation
             st.write("")
-            st.write("### 🏃 Impact on NAPFA Performance")
+            st.write("### Impact on NAPFA Performance")
 
             st.info("""
             **Body composition affects NAPFA scores:**
@@ -4977,12 +4977,12 @@ def advanced_metrics():
             })
             update_user_data(user_data)
 
-            st.success("✅ Body composition data saved to your history!")
+            st.success("Body composition data saved to your history!")
 
         # Show history if available
         if user_data.get('body_comp_history') and len(user_data['body_comp_history']) > 1:
             st.write("")
-            st.write("### 📈 Progress Tracking")
+            st.write("### Progress Tracking")
 
             df_comp = pd.DataFrame(user_data['body_comp_history'])
             df_comp['date'] = pd.to_datetime(df_comp['date'])
@@ -4999,7 +4999,7 @@ def advanced_metrics():
 
         # Method explanation
         st.write("")
-        with st.expander("ℹ️ About the Navy Method"):
+        with st.expander("About the Navy Method"):
             st.write("""
             **The U.S. Navy Body Composition Method:**
 
@@ -5025,27 +5025,27 @@ def advanced_metrics():
 
 # API Integrations
 def api_integrations():
-    st.header("🌐 API Integrations")
+    st.header("API Integrations")
     st.write("Connect with external services for enhanced features")
 
     user_data = get_user_data()
 
     # Create tabs
     tab1, tab2, tab3 = st.tabs([
-        "🌤️ Weather API",
-        "🍔 Nutrition API",
-        "🎥 YouTube API"
+        "Weather API",
+        "Nutrition API",
+        "YouTube API"
     ])
 
     with tab1:
-        st.subheader("🌤️ Weather-Based Workout Recommendations")
+        st.subheader("Weather-Based Workout Recommendations")
         st.write("Get outdoor workout suggestions based on current weather")
 
         # Show API status
         if OPENWEATHER_API_KEY:
-            st.success("✅ Real Weather API Active")
+            st.success("Real Weather API Active")
         else:
-            st.info("📝 Using simulated weather data. Add API key to enable real-time weather.")
+            st.info("Using simulated weather data. Add API key to enable real-time weather.")
 
         location = st.text_input("Your Location", value="Singapore", placeholder="Enter city name")
 
@@ -5075,7 +5075,7 @@ def api_integrations():
                         conditions = data['weather'][0]['main']
                         description = data['weather'][0]['description']
 
-                        st.success(f"✅ Real-time weather data from OpenWeatherMap")
+                        st.success(f"Real-time weather data from OpenWeatherMap")
                     else:
                         st.error(f"Error fetching weather: {response.status_code}")
                         # Fallback to mock data
@@ -5098,37 +5098,37 @@ def api_integrations():
                 conditions = random.choice(["Clear", "Partly Cloudy", "Cloudy", "Light Rain", "Rainy"])
 
                 if not OPENWEATHER_API_KEY:
-                    st.warning("⚠️ Simulated weather data (no API key configured)")
+                    st.warning("Simulated weather data (no API key configured)")
 
             # Display weather (same for both real and mock)
             st.write("### Current Weather")
 
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("🌡️ Temperature", f"{temp}°C")
+                st.metric(" Temperature", f"{temp}°C")
             with col2:
-                st.metric("💧 Humidity", f"{humidity}%")
+                st.metric("Humidity", f"{humidity}%")
             with col3:
-                st.metric("☁️ Conditions", conditions)
+                st.metric(" Conditions", conditions)
 
             # Generate recommendations (same logic for both)
             st.write("")
-            st.write("### 🏃 Workout Recommendations")
+            st.write("### Workout Recommendations")
 
             if temp < 28 and "Rain" not in conditions:
-                recommendation = "✅ Perfect for outdoor running!"
+                recommendation = "Perfect for outdoor running!"
                 workout = "2.4km NAPFA practice run"
                 color = "#4caf50"
             elif temp < 32 and "Rain" not in conditions:
-                recommendation = "⚠️ Good for outdoor, stay hydrated"
+                recommendation = "Good for outdoor, stay hydrated"
                 workout = "Morning or evening run (avoid midday)"
                 color = "#ff9800"
             elif "Rain" in conditions:
-                recommendation = "🏠 Indoor workout recommended"
+                recommendation = "Indoor workout recommended"
                 workout = "Indoor circuit: push-ups, sit-ups, burpees"
                 color = "#2196f3"
             else:
-                recommendation = "🌡️ Too hot! Indoor training"
+                recommendation = " Too hot! Indoor training"
                 workout = "Air-con gym or home workout"
                 color = "#f44336"
 
@@ -5141,15 +5141,15 @@ def api_integrations():
 
             # Hydration advice
             hydration_need = "High" if temp > 30 or humidity > 80 else "Moderate"
-            st.info(f"💧 **Hydration Need:** {hydration_need} - Drink {500 if hydration_need == 'High' else 300}ml before workout")
+            st.info(f"**Hydration Need:** {hydration_need} - Drink {500 if hydration_need == 'High' else 300}ml before workout")
 
         # Setup instructions
         if not OPENWEATHER_API_KEY:
             st.write("")
             st.write("---")
-            st.write("### 🔗 Enable Real-Time Weather")
+            st.write("###  Enable Real-Time Weather")
 
-            with st.expander("📝 Setup Instructions", expanded=False):
+            with st.expander("Setup Instructions", expanded=False):
                 st.markdown("""
                 **Step 1: Get Free API Key**
                 1. Go to: https://openweathermap.org/api
@@ -5160,7 +5160,7 @@ def api_integrations():
 
                 **Step 2: Add to Streamlit Cloud**
                 1. Deploy your app to Streamlit Cloud
-                2. Go to your app settings (⚙️)
+                2. Go to your app settings ()
                 3. Click "Secrets"
                 4. Add this:
                 ```
@@ -5184,20 +5184,20 @@ def api_integrations():
 
 
     with tab2:
-        st.subheader("🍔 Food & Nutrition Database")
+        st.subheader("Food & Nutrition Database")
         st.write("Search nutritional information for any food")
 
         # Show API status
         if USDA_API_KEY:
-            st.success("✅ Real USDA Food Database Active (350,000+ foods)")
+            st.success("Real USDA Food Database Active (350,000+ foods)")
         else:
-            st.info("📝 Using sample food database. Add USDA API key for 350,000+ foods.")
+            st.info("Using sample food database. Add USDA API key for 350,000+ foods.")
 
         # Food search
         food_query = st.text_input("Search for a food", placeholder="e.g., chicken rice, banana, salmon")
 
         # Advanced search options
-        with st.expander("🔍 Advanced Search Options"):
+        with st.expander("Advanced Search Options"):
             col1, col2 = st.columns(2)
             with col1:
                 food_category = st.selectbox(
@@ -5237,7 +5237,7 @@ def api_integrations():
                         foods = data.get('foods', [])
 
                         if foods:
-                            st.success(f"✅ Found {len(foods)} results from USDA database")
+                            st.success(f"Found {len(foods)} results from USDA database")
 
                             # Sort results if needed
                             if sort_by == "Protein (High to Low)":
@@ -5274,7 +5274,7 @@ def api_integrations():
                                 serving = food.get('servingSize', 100)
                                 serving_unit = food.get('servingUnit', 'g')
 
-                                with st.expander(f"🍽️ {food_name}" + (f" ({brand})" if brand else ""), expanded=True):
+                                with st.expander(f" {food_name}" + (f" ({brand})" if brand else ""), expanded=True):
                                     col1, col2 = st.columns([2, 1])
 
                                     with col1:
@@ -5352,9 +5352,9 @@ def api_integrations():
         if not USDA_API_KEY:
             st.write("")
             st.write("---")
-            st.write("### 🔗 Enable Full Food Database")
+            st.write("###  Enable Full Food Database")
 
-            with st.expander("📝 Setup Instructions (2 minutes)", expanded=False):
+            with st.expander("Setup Instructions (2 minutes)", expanded=False):
                 st.markdown("""
                 **Step 1: Get FREE API Key**
                 1. Go to: https://fdc.nal.usda.gov/api-key-signup.html
@@ -5369,7 +5369,7 @@ def api_integrations():
 
                 **Step 2: Add to Streamlit Cloud**
                 1. Go to your deployed app
-                2. Click ⚙️ Settings → Secrets
+                2. Click Settings → Secrets
                 3. Add this line:
                 ```
                 USDA_API_KEY = "your_api_key_here"
@@ -5378,16 +5378,16 @@ def api_integrations():
 
                 **Step 3: Test**
                 1. Come back to this page
-                2. Should see "✅ Real USDA Food Database Active"
+                2. Should see "Real USDA Food Database Active"
                 3. Search any food - get instant results!
 
                 **What You Get:**
-                - ✅ 350,000+ foods (vs. 5 sample foods)
-                - ✅ Brand name foods
-                - ✅ Restaurant foods
-                - ✅ Complete nutrient data (vitamins, minerals, etc.)
-                - ✅ Serving size info
-                - ✅ Unlimited searches (FREE forever!)
+                - 350,000+ foods (vs. 5 sample foods)
+                - Brand name foods
+                - Restaurant foods
+                - Complete nutrient data (vitamins, minerals, etc.)
+                - Serving size info
+                - Unlimited searches (FREE forever!)
 
                 **Free Tier:**
                 - 1,000 requests per hour
@@ -5397,10 +5397,10 @@ def api_integrations():
                 """)
 
     with tab3:
-        st.subheader("🎥 Exercise Tutorial Videos")
+        st.subheader("Exercise Tutorial Videos")
         st.write("Curated YouTube videos for NAPFA components and exercises")
 
-        st.info("💡 We use curated video links for best quality tutorials!")
+        st.info("We use curated video links for best quality tutorials!")
 
         # NAPFA Component Videos
         st.write("### NAPFA Component Tutorials")
@@ -5441,7 +5441,7 @@ def api_integrations():
                 st.link_button("Watch Videos", url, type="secondary")
 
         st.write("")
-        st.success("✅ All video links lead to curated YouTube search results for best tutorials!")
+        st.success("All video links lead to curated YouTube search results for best tutorials!")
 
 # Helper functions for USDA API
 def get_nutrient_from_food(food, nutrient_name):
@@ -5578,7 +5578,7 @@ def show_mock_nutrition_data(food_query):
         st.success(f"Found {len(results)} result(s) in sample database")
 
         for food_name, nutrition in results.items():
-            with st.expander(f"🍽️ {food_name.title()}", expanded=True):
+            with st.expander(f" {food_name.title()}", expanded=True):
                 col1, col2 = st.columns([2, 1])
 
                 with col1:
@@ -5616,14 +5616,14 @@ def show_mock_nutrition_data(food_query):
                         st.write("")
                         st.metric("Health Score", f"{health_score}/10")
 
-        st.info("💡 **Limited to 8 sample foods.** Add USDA API key for 350,000+ foods!")
+        st.info("**Limited to 8 sample foods.** Add USDA API key for 350,000+ foods!")
     else:
         st.warning(f"No results for '{food_query}' in sample database.")
         st.write("**Try searching:** chicken rice, banana, apple, white rice, grilled chicken breast, salmon, broccoli, egg")
-        st.info("💡 Add USDA API key to search any food!")
+        st.info("Add USDA API key to search any food!")
 
 # Workout Timer with Audio
-        st.subheader("🎥 Exercise Tutorial Videos")
+        st.subheader("Exercise Tutorial Videos")
         st.write("Get exercise demonstrations from YouTube")
 
         # NAPFA component selector
@@ -5657,23 +5657,23 @@ def show_mock_nutrition_data(food_query):
             }
 
             if exercise in videos:
-                st.write(f"### 📹 Top Tutorials for {exercise}")
+                st.write(f"###  Top Tutorials for {exercise}")
 
                 for video in videos[exercise]:
-                    with st.expander(f"▶️ {video['title']} - {video['duration']}", expanded=True):
+                    with st.expander(f"{video['title']} - {video['duration']}", expanded=True):
                         st.write(f"**Channel:** {video['channel']}")
                         st.write(f"**Duration:** {video['duration']}")
 
                         # In production, embed actual video
-                        st.info("🎥 Video would be embedded here with real YouTube API")
+                        st.info("Video would be embedded here with real YouTube API")
 
-                        st.write("**🔗 Search on YouTube:** ")
+                        st.write("** Search on YouTube:** ")
                         search_url = f"https://www.youtube.com/results?search_query={exercise.replace(' ', '+')}+NAPFA+tutorial"
                         st.markdown(f"[Open YouTube Search]({search_url})")
 
             st.write("")
             st.info("""
-            **🔗 To enable video embedding:**
+            ** To enable video embedding:**
 
             Use YouTube Data API v3 (free quota):
             1. Get API key: https://console.cloud.google.com/
@@ -5682,7 +5682,7 @@ def show_mock_nutrition_data(food_query):
             """)
 
 def teacher_dashboard():
-    st.header("👨‍🏫 Teacher Dashboard")
+    st.header("Teacher Dashboard")
 
     user_data = get_user_data()
     all_users = st.session_state.users_data
@@ -5691,8 +5691,8 @@ def teacher_dashboard():
     class_display_label = user_data.get('class_label') or 'My Class'
     st.markdown(f"""
     <div class="stat-card" style="background: linear-gradient(135deg, {SST_COLORS['blue']} 0%, #1565c0 100%); color: white;">
-        <h2>📚 {class_display_label}</h2>
-        <h3>📝 Class Code: <strong>{user_data['class_code']}</strong></h3>
+        <h2>{class_display_label}</h2>
+        <h3>Class Code: <strong>{user_data['class_code']}</strong></h3>
         <p>Share this code with your students so they can join your class</p>
     </div>
     """, unsafe_allow_html=True)
@@ -5705,17 +5705,17 @@ def teacher_dashboard():
 
     # Create tabs
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "💪 My Fitness",
-        "🏠 Houses",
-        "📊 Class Overview",
-        "👥 Student List",
-        "📸 Workout Reviews",
-        "📈 Performance Analysis",
-        "📄 Export Reports"
+        "My Fitness",
+        "Houses",
+        "Class Overview",
+        "Student List",
+        "Workout Reviews",
+        "Performance Analysis",
+        "Export Reports"
     ])
 
     with tab1:
-        st.subheader("💪 My Personal Fitness")
+        st.subheader("My Personal Fitness")
         st.write("Track your own fitness alongside your students!")
 
         # Allow teachers to access all student features
@@ -5726,7 +5726,7 @@ def teacher_dashboard():
         )
 
         if teacher_feature == "Dashboard":
-            st.write("### 📊 Your Fitness Overview")
+            st.write("### Your Fitness Overview")
 
             # Teacher's personal stats
             col1, col2, col3, col4 = st.columns(4)
@@ -5751,34 +5751,34 @@ def teacher_dashboard():
 
             with col4:
                 if user_data.get('house'):
-                    house_display = {'yellow': '🟡 Yellow', 'red': '🔴 Red', 'blue': '🔵 Blue',
-                                   'green': '🟢 Green', 'black': '⚫ Black'}.get(user_data['house'], 'None')
+                    house_display = {'yellow': 'Yellow', 'red': 'Red', 'blue': 'Blue',
+                                   'green': 'Green', 'black': 'Black'}.get(user_data['house'], 'None')
                     st.metric("Your House", house_display)
                 else:
                     st.metric("Your House", "Not assigned")
 
             # Quick actions
             st.write("")
-            st.write("### 🚀 Quick Actions")
+            st.write("###  Quick Actions")
 
             col1, col2, col3 = st.columns(3)
             with col1:
-                if st.button("📝 Log Workout", key="teacher_log"):
+                if st.button("Log Workout", key="teacher_log"):
                     st.session_state.teacher_feature_nav = "Exercise Log"
                     st.rerun()
             with col2:
-                if st.button("🏃 Take NAPFA", key="teacher_napfa"):
+                if st.button("Take NAPFA", key="teacher_napfa"):
                     st.session_state.teacher_feature_nav = "NAPFA Test"
                     st.rerun()
             with col3:
-                if st.button("🤖 AI Insights", key="teacher_ai"):
+                if st.button("AI Insights", key="teacher_ai"):
                     st.session_state.teacher_feature_nav = "AI Insights"
                     st.rerun()
 
             # Recent activity
             if user_data.get('exercises'):
                 st.write("")
-                st.write("### 📋 Recent Workouts")
+                st.write("###  Recent Workouts")
                 recent = user_data['exercises'][:5]
                 for ex in recent:
                     st.write(f"• **{ex['name']}** - {ex['duration']} min ({ex['date']})")
@@ -5802,8 +5802,8 @@ def teacher_dashboard():
             ai_insights()
 
         elif teacher_feature == "Community":
-            st.write("### 🏆 Community Features")
-            st.info("💡 As a teacher, you can join houses, compete on leaderboards, and connect with colleagues!")
+            st.write("### Community Features")
+            st.info("As a teacher, you can join houses, compete on leaderboards, and connect with colleagues!")
 
             community_sub = st.selectbox("Select", ["Leaderboards", "My Achievements", "Friends"])
 
@@ -5812,7 +5812,7 @@ def teacher_dashboard():
                 st.write("You can compete with students and other teachers!")
 
             elif community_sub == "My Achievements":
-                st.write("### 🎖️ Your Badges & Achievements")
+                st.write("### Your Badges & Achievements")
                 badges = user_data.get('badges', [])
                 if badges:
                     for badge in badges:
@@ -5821,19 +5821,19 @@ def teacher_dashboard():
                     st.info("Complete workouts and NAPFA tests to earn badges!")
 
             elif community_sub == "Friends":
-                st.write("### 👥 Connect with Colleagues")
+                st.write("### Connect with Colleagues")
                 st.write("Add other teachers as friends to compare fitness progress!")
 
     with tab2:
-        st.subheader("🏠 House System - Your Class")
+        st.subheader("House System - Your Class")
 
         # Calculate house stats for THIS teacher's students only
         house_stats = {
-            'yellow': {'points': 0, 'members': [], 'workouts': 0, 'display': '🟡 Yellow House', 'color': '#FFD700'},
-            'red': {'points': 0, 'members': [], 'workouts': 0, 'display': '🔴 Red House', 'color': '#DC143C'},
-            'blue': {'points': 0, 'members': [], 'workouts': 0, 'display': '🔵 Blue House', 'color': '#1E90FF'},
-            'green': {'points': 0, 'members': [], 'workouts': 0, 'display': '🟢 Green House', 'color': '#32CD32'},
-            'black': {'points': 0, 'members': [], 'workouts': 0, 'display': '⚫ Black House', 'color': '#2F4F4F'}
+            'yellow': {'points': 0, 'members': [], 'workouts': 0, 'display': 'Yellow House', 'color': '#FFD700'},
+            'red': {'points': 0, 'members': [], 'workouts': 0, 'display': 'Red House', 'color': '#DC143C'},
+            'blue': {'points': 0, 'members': [], 'workouts': 0, 'display': 'Blue House', 'color': '#1E90FF'},
+            'green': {'points': 0, 'members': [], 'workouts': 0, 'display': 'Green House', 'color': '#32CD32'},
+            'black': {'points': 0, 'members': [], 'workouts': 0, 'display': 'Black House', 'color': '#2F4F4F'}
         }
 
         # Calculate points for teacher's students only
@@ -5849,23 +5849,23 @@ def teacher_dashboard():
         sorted_houses = sorted(house_stats.items(), key=lambda x: x[1]['points'], reverse=True)
 
         # Display house standings
-        st.write("### 🏆 House Standings (Your Class)")
+        st.write("### House Standings (Your Class)")
 
         for rank, (house_name, stats) in enumerate(sorted_houses, 1):
             if stats['members']:  # Only show houses with members
-                medal = "🥇" if rank == 1 else "🥈" if rank == 2 else "🥉" if rank == 3 else f"{rank}."
+                medal = "" if rank == 1 else "" if rank == 2 else "" if rank == 3 else f"{rank}."
 
                 st.markdown(f"""
                 <div class="stat-card" style="background: linear-gradient(135deg, {stats['color']} 0%, {stats['color']}dd 100%); color: white;">
                     <h3>{medal} {stats['display']}</h3>
                     <h2>{stats['points']:.1f} Points</h2>
-                    <p>👥 {len(stats['members'])} members | 💪 {stats['workouts']} workouts</p>
+                    <p>{len(stats['members'])} members | {stats['workouts']} workouts</p>
                 </div>
                 """, unsafe_allow_html=True)
 
         # House distribution
         st.write("")
-        st.write("### 📊 House Distribution")
+        st.write("### House Distribution")
 
         col1, col2, col3, col4, col5 = st.columns(5)
         cols = [col1, col2, col3, col4, col5]
@@ -5878,7 +5878,7 @@ def teacher_dashboard():
         unassigned = [username for username, student in students_data.items() if not student.get('house')]
         if unassigned:
             st.write("")
-            st.warning(f"⚠️ {len(unassigned)} student(s) not assigned to a house")
+            st.warning(f"{len(unassigned)} student(s) not assigned to a house")
             st.write("Go to 'Student List' tab to assign houses.")
 
     with tab3:
@@ -5930,7 +5930,7 @@ def teacher_dashboard():
         # Performance distribution
         if napfa_scores:
             st.write("")
-            st.write("### 📊 NAPFA Score Distribution")
+            st.write("### NAPFA Score Distribution")
 
             # Create distribution chart
             df = pd.DataFrame({'Score': napfa_scores})
@@ -5938,31 +5938,31 @@ def teacher_dashboard():
 
             # Medal counts
             st.write("")
-            st.write("### 🏅 Medal Distribution")
+            st.write("###  Medal Distribution")
 
-            medal_counts = {'🥇 Gold': 0, '🥈 Silver': 0, '🥉 Bronze': 0, 'No Medal': 0}
+            medal_counts = {'Gold': 0, 'Silver': 0, 'Bronze': 0, 'No Medal': 0}
             for student in students_data.values():
                 if student.get('napfa_history'):
                     medal = student['napfa_history'][-1]['medal']
-                    if '🥇' in medal:
-                        medal_counts['🥇 Gold'] += 1
-                    elif '🥈' in medal:
-                        medal_counts['🥈 Silver'] += 1
-                    elif '🥉' in medal:
-                        medal_counts['🥉 Bronze'] += 1
+                    if '' in medal:
+                        medal_counts['Gold'] += 1
+                    elif '' in medal:
+                        medal_counts['Silver'] += 1
+                    elif '' in medal:
+                        medal_counts['Bronze'] += 1
                     else:
                         medal_counts['No Medal'] += 1
 
             col1, col2, col3, col4 = st.columns(4)
-            col1.metric("🥇 Gold", medal_counts['🥇 Gold'])
-            col2.metric("🥈 Silver", medal_counts['🥈 Silver'])
-            col3.metric("🥉 Bronze", medal_counts['🥉 Bronze'])
+            col1.metric("Gold", medal_counts['Gold'])
+            col2.metric("Silver", medal_counts['Silver'])
+            col3.metric("Bronze", medal_counts['Bronze'])
             col4.metric("No Medal", medal_counts['No Medal'])
 
         # Top performers
         if napfa_scores:
             st.write("")
-            st.write("### ⭐ Top Performers")
+            st.write("###  Top Performers")
 
             student_scores = []
             for username, student in students_data.items():
@@ -5977,28 +5977,28 @@ def teacher_dashboard():
             student_scores.sort(key=lambda x: x['score'], reverse=True)
 
             for idx, student in enumerate(student_scores[:5], 1):
-                medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
+                medal = "" if idx == 1 else "" if idx == 2 else "" if idx == 3 else f"{idx}."
                 st.write(f"{medal} **{student['name']}** - {student['score']}/30 ({student['medal']})")
 
         # Students needing attention
         st.write("")
-        st.write("### ⚠️ Students Needing Attention")
+        st.write("### Students Needing Attention")
 
         needs_attention = []
         for username, student in students_data.items():
             # Check if inactive
             if not student.get('exercises') or len(student.get('exercises', [])) == 0:
-                needs_attention.append(f"📝 **{student['name']}** - No workouts logged")
+                needs_attention.append(f"**{student['name']}** - No workouts logged")
             elif student.get('napfa_history'):
                 latest_napfa = student['napfa_history'][-1]
                 if latest_napfa['total'] < 9:
-                    needs_attention.append(f"📉 **{student['name']}** - Low NAPFA score ({latest_napfa['total']}/30)")
+                    needs_attention.append(f" **{student['name']}** - Low NAPFA score ({latest_napfa['total']}/30)")
 
         if needs_attention:
             for msg in needs_attention[:5]:
                 st.warning(msg)
         else:
-            st.success("✅ All students doing well!")
+            st.success("All students doing well!")
 
     with tab4:
         st.subheader("Student List")
@@ -6007,12 +6007,12 @@ def teacher_dashboard():
             st.info("No students in your class yet. Share your class code: " + user_data['class_code'])
         else:
             # Search and filter
-            search = st.text_input("🔍 Search students", placeholder="Enter name or username")
+            search = st.text_input("Search students", placeholder="Enter name or username")
 
             # Display students
             for username, student in students_data.items():
                 if search.lower() in student['name'].lower() or search.lower() in username.lower() or not search:
-                    with st.expander(f"👤 {student['name']} (@{username})"):
+                    with st.expander(f"{student['name']} (@{username})"):
                         col1, col2, col3 = st.columns(3)
 
                         with col1:
@@ -6040,16 +6040,16 @@ def teacher_dashboard():
                         current_house = student.get('house', 'Not assigned')
                         if current_house != 'Not assigned':
                             house_display = {
-                                'yellow': '🟡 Yellow',
-                                'red': '🔴 Red',
-                                'blue': '🔵 Blue',
-                                'green': '🟢 Green',
-                                'black': '⚫ Black'
+                                'yellow': 'Yellow',
+                                'red': 'Red',
+                                'blue': 'Blue',
+                                'green': 'Green',
+                                'black': 'Black'
                             }
-                            st.write(f"**🏠 House:** {house_display.get(current_house, current_house.title())}")
+                            st.write(f"**House:** {house_display.get(current_house, current_house.title())}")
                             st.write(f"**House Points:** {student.get('house_points_contributed', 0):.1f}")
                         else:
-                            st.write("**🏠 House:** Not assigned")
+                            st.write("**House:** Not assigned")
 
                         # House assignment
                         st.write("")
@@ -6059,8 +6059,8 @@ def teacher_dashboard():
                             house_options,
                             index=house_options.index(current_house) if current_house in house_options else 0,
                             key=f"house_{username}",
-                            format_func=lambda x: {'yellow': '🟡 Yellow', 'red': '🔴 Red', 'blue': '🔵 Blue',
-                                                  'green': '🟢 Green', 'black': '⚫ Black'}[x]
+                            format_func=lambda x: {'yellow': 'Yellow', 'red': 'Red', 'blue': 'Blue',
+                                                  'green': 'Green', 'black': 'Black'}[x]
                         )
 
                         col_a, col_b = st.columns(2)
@@ -6082,7 +6082,7 @@ def teacher_dashboard():
 
 
     with tab5:
-        st.subheader("📸 Workout Reviews")
+        st.subheader("Workout Reviews")
         st.write("Review your students' workout photos and adjust points if the AI graded unfairly.")
 
         if not students_data:
@@ -6114,7 +6114,7 @@ def teacher_dashboard():
                 with fc2:
                     filter_status = st.selectbox(
                         "Filter by AI status",
-                        ["All", "✅ Verified", "❌ Failed", "⚠️ Unverified", "✏️ Teacher overridden"],
+                        ["All", "Verified", "Failed", "Unverified", " Teacher overridden"],
                         key="review_filter_status"
                     )
                 with fc3:
@@ -6128,13 +6128,13 @@ def teacher_dashboard():
                 filtered = all_reviews
                 if filter_student != "All students":
                     filtered = [r for r in filtered if r["student_name"] == filter_student]
-                if filter_status == "✅ Verified":
+                if filter_status == "Verified":
                     filtered = [r for r in filtered if r["exercise"].get("verification_status") == "verified" and not r["exercise"].get("teacher_override")]
-                elif filter_status == "❌ Failed":
+                elif filter_status == "Failed":
                     filtered = [r for r in filtered if r["exercise"].get("verification_status") == "failed"]
-                elif filter_status == "⚠️ Unverified":
+                elif filter_status == "Unverified":
                     filtered = [r for r in filtered if r["exercise"].get("verification_status") in ("unverified", "mock")]
-                elif filter_status == "✏️ Teacher overridden":
+                elif filter_status == " Teacher overridden":
                     filtered = [r for r in filtered if r["exercise"].get("teacher_override")]
 
                 # Sort
@@ -6162,13 +6162,13 @@ def teacher_dashboard():
                     overridden = ex.get("teacher_override", False)
 
                     status_display = {
-                        "verified": "✅ AI Verified",
-                        "failed": "❌ AI Failed",
-                        "unverified": "⚠️ Unverified",
-                        "mock": "🔵 Mock Mode",
+                        "verified": "AI Verified",
+                        "failed": "AI Failed",
+                        "unverified": "Unverified",
+                        "mock": "Mock Mode",
                     }.get(v_status, v_status)
                     if overridden:
-                        status_display = "✏️ Teacher Override"
+                        status_display = " Teacher Override"
 
                     border_color = {
                         "verified": "#2e7d32",
@@ -6208,14 +6208,14 @@ def teacher_dashboard():
                         st.write(f"**Intensity:** {ex.get('intensity','N/A')}")
 
                         if ex.get("notes"):
-                            st.caption(f"📝 {ex['notes']}")
+                            st.caption(f"{ex['notes']}")
 
                         if ex.get("ai_feedback"):
-                            with st.expander("🤖 View AI Feedback"):
+                            with st.expander("View AI Feedback"):
                                 st.write(ex["ai_feedback"])
 
                         current_pts = int(ex.get("points_earned", 0))
-                        st.write(f"**Current points:** {current_pts} pts{'  ✏️ *(teacher adjusted)*' if overridden else ''}")
+                        st.write(f"**Current points:** {current_pts} pts{'   *(teacher adjusted)*' if overridden else ''}")
 
                         new_pts = st.number_input(
                             "Override points",
@@ -6229,7 +6229,7 @@ def teacher_dashboard():
 
                         b1, b2 = st.columns(2)
                         with b1:
-                            if st.button("💾 Save", key=f"save_{s_username}_{ex_idx}", use_container_width=True, type="primary"):
+                            if st.button(" Save", key=f"save_{s_username}_{ex_idx}", use_container_width=True, type="primary"):
                                 diff = new_pts - current_pts
                                 st.session_state.users_data[s_username]["exercises"][ex_idx]["points_earned"] = new_pts
                                 st.session_state.users_data[s_username]["exercises"][ex_idx]["teacher_override"] = True
@@ -6238,12 +6238,12 @@ def teacher_dashboard():
                                     st.session_state.users_data[s_username].get("total_points", 0) + diff
                                 )
                                 save_users(st.session_state.users_data)
-                                st.success(f"✅ Saved! {'+' if diff >= 0 else ''}{diff} pts applied to {s_name}.")
+                                st.success(f"Saved! {'+' if diff >= 0 else ''}{diff} pts applied to {s_name}.")
                                 st.rerun()
 
                         with b2:
                             if overridden:
-                                if st.button("↩️ Reset AI", key=f"reset_{s_username}_{ex_idx}", use_container_width=True):
+                                if st.button("↩ Reset AI", key=f"reset_{s_username}_{ex_idx}", use_container_width=True):
                                     st.session_state.users_data[s_username]["exercises"][ex_idx]["teacher_override"] = False
                                     save_users(st.session_state.users_data)
                                     st.info("Reset to AI decision.")
@@ -6258,7 +6258,7 @@ def teacher_dashboard():
             st.info("No students to analyze yet")
         else:
             # NAPFA component analysis
-            st.write("### 📊 NAPFA Component Breakdown")
+            st.write("### NAPFA Component Breakdown")
 
             component_scores = {
                 'Sit-Ups': [],
@@ -6300,12 +6300,12 @@ def teacher_dashboard():
                 # Identify weak areas
                 weak_components = [name for name, avg in avg_scores.items() if avg < 3]
                 if weak_components:
-                    st.warning(f"⚠️ **Class weak areas:** {', '.join(weak_components)}")
-                    st.info("💡 Consider focusing class training on these components")
+                    st.warning(f"**Class weak areas:** {', '.join(weak_components)}")
+                    st.info("Consider focusing class training on these components")
 
             # Participation trends
             st.write("")
-            st.write("### 📈 Weekly Participation Trend")
+            st.write("### Weekly Participation Trend")
 
             # Last 4 weeks
             weeks_data = []
@@ -6334,31 +6334,31 @@ def teacher_dashboard():
         st.subheader("Export Class Reports")
 
         # Class name management
-        st.write("### ✏️ Rename Your Class")
+        st.write("###  Rename Your Class")
         current_label = user_data.get('class_label', '')
         new_label = st.text_input("Class Name", value=current_label, placeholder="e.g., 3-Integrity, Sec 2A", key="teacher_class_label")
-        if st.button("💾 Save Class Name"):
+        if st.button(" Save Class Name"):
             user_data['class_label'] = new_label.strip()
             update_user_data(user_data)
-            st.success(f"✅ Class renamed to **{new_label.strip()}**!")
+            st.success(f"Class renamed to **{new_label.strip()}**!")
             st.rerun()
 
         st.write("---")
 
         # AI Verification Strictness
-        st.write("### 🤖 AI Form Verification Strictness")
+        st.write("### AI Form Verification Strictness")
         st.write("Controls how strictly the AI evaluates your students' exercise photos.")
 
         strictness_options = {
-            "😊 Lenient — Accept any reasonable attempt": 1,
-            "⚖️ Standard — Roughly correct technique required": 2,
-            "💪 Strict — Proper form on all key criteria": 3,
+            " Lenient — Accept any reasonable attempt": 1,
+            " Standard — Roughly correct technique required": 2,
+            "Strict — Proper form on all key criteria": 3,
         }
 
         current_strictness = user_data.get('verification_strictness', 2)
         current_label_str = next(
             (k for k, v in strictness_options.items() if v == current_strictness),
-            "⚖️ Standard — Roughly correct technique required"
+            " Standard — Roughly correct technique required"
         )
 
         selected = st.radio(
@@ -6389,13 +6389,13 @@ def teacher_dashboard():
         new_strictness = strictness_options[selected]
         st.info(strictness_descriptions[new_strictness])
 
-        if st.button("💾 Save Strictness Setting", key="save_strictness"):
+        if st.button(" Save Strictness Setting", key="save_strictness"):
             user_data['verification_strictness'] = new_strictness
             update_user_data(user_data)
-            st.success("✅ Strictness setting saved! It will apply to all your students' next verifications.")
+            st.success("Strictness setting saved! It will apply to all your students' next verifications.")
 
         st.write("---")
-        st.write("### 📊 Google Sheets Export")
+        st.write("### Google Sheets Export")
         st.info("Generate a comprehensive class report and export to Google Sheets")
 
         # Report options
@@ -6403,7 +6403,7 @@ def teacher_dashboard():
         include_workouts = st.checkbox("Include workout logs", value=True)
         include_attendance = st.checkbox("Include attendance/participation", value=True)
 
-        if st.button("📄 Generate Report (Download CSV)", type="primary"):
+        if st.button("Generate Report (Download CSV)", type="primary"):
             if not students_data:
                 st.error("No students to export")
             else:
@@ -6452,20 +6452,20 @@ def teacher_dashboard():
                 csv = df_report.to_csv(index=False)
 
                 st.download_button(
-                    label="📥 Download CSV Report",
+                    label="Download CSV Report",
                     data=csv,
                     file_name=f"class_report_{datetime.now().strftime('%Y%m%d')}.csv",
                     mime="text/csv"
                 )
 
-                st.success("✅ Report generated! Click to download.")
+                st.success("Report generated! Click to download.")
 
                 # Preview
                 st.write("### Preview")
                 st.dataframe(df_report, use_container_width=True)
 
         st.write("")
-        st.write("### 📧 Share Instructions")
+        st.write("###  Share Instructions")
         st.info("""
         **To share this report with others:**
         1. Download the CSV file
@@ -6478,7 +6478,7 @@ def teacher_dashboard():
         """)
 
 def schedule_manager():
-    st.header("📅 Training Schedule")
+    st.header("Training Schedule")
 
     with st.form("schedule_form"):
         day = st.selectbox("Day of Week",
@@ -6537,10 +6537,10 @@ def main_app():
     with col1:
         current_dt = datetime.now().strftime("%A, %d %B %Y  |  %I:%M %p")
         if is_teacher:
-            st.markdown(f'<div class="main-header"><h1>🏋️ FitTrack - Teacher Portal</h1><p>Welcome, {user_data["name"]}!</p><p style="font-size:0.9em; opacity:0.85;">🕐 {current_dt}</p></div>',
+            st.markdown(f'<div class="main-header"><h1>FitTrack - Teacher Portal</h1><p>Welcome, {user_data["name"]}!</p><p style="font-size:0.9em; opacity:0.85;">{current_dt}</p></div>',
                        unsafe_allow_html=True)
         else:
-            st.markdown(f'<div class="main-header"><h1>🏋️ FitTrack</h1><p>Welcome back, {user_data["name"]}!</p><p style="font-size:0.9em; opacity:0.85;">🕐 {current_dt}</p></div>',
+            st.markdown(f'<div class="main-header"><h1>FitTrack</h1><p>Welcome back, {user_data["name"]}!</p><p style="font-size:0.9em; opacity:0.85;">{current_dt}</p></div>',
                        unsafe_allow_html=True)
     with col2:
         st.write("")
@@ -6561,24 +6561,24 @@ def main_app():
         # Sidebar navigation
         st.sidebar.title("Navigation")
         page = st.sidebar.radio("Choose a feature:",
-                               ["📊 Weekly Progress", "🏆 Community", "🤖 AI Insights",
-                                "🏥 Advanced Metrics", "🌐 Integrations",
-                                "💪 Log Workout",
+                               ["Weekly Progress", "Community", "AI Insights",
+                                "Advanced Metrics", "Integrations",
+                                "Log Workout",
                                 "BMI Calculator", "NAPFA Test", "Sleep Tracker",
                                 "Training Schedule"])
 
         # Display selected page
-        if page == "📊 Weekly Progress":
+        if page == "Weekly Progress":
             reminders_and_progress()
-        elif page == "🏆 Community":
+        elif page == "Community":
             community_features()
-        elif page == "🤖 AI Insights":
+        elif page == "AI Insights":
             ai_insights()
-        elif page == "🏥 Advanced Metrics":
+        elif page == "Advanced Metrics":
             advanced_metrics()
-        elif page == "🌐 Integrations":
+        elif page == "Integrations":
             api_integrations()
-        elif page == "💪 Log Workout":
+        elif page == "Log Workout":
             exercise_logger()
         elif page == "BMI Calculator":
             bmi_calculator()
