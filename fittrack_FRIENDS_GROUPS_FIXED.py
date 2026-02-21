@@ -6,13 +6,13 @@ from datetime import datetime, timedelta
 import pandas as pd
 import numpy as np
 
-# API keys — set these in Streamlit Cloud: App Settings > Secrets
+# API keys 
 OPENWEATHER_API_KEY = os.environ.get('OPENWEATHER_API_KEY', '')
 USDA_API_KEY = os.environ.get('USDA_API_KEY', '')
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
 
-# SST Color Palette
-SST_COLORS = {
+# Website Colour Palette
+COLOURS = {
     'red': '#d32f2f',
     'blue': '#1976d2',
     'gray': '#5a5a5a',
@@ -29,7 +29,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Universal fixed palette — no dark/light switching
+# Universal fixed palette 
 st.markdown(f"""
     <style>
     /* - Force a consistent light theme regardless of OS/browser setting - */
@@ -59,7 +59,7 @@ st.markdown(f"""
 
     /* Login / hero header */
     .main-header {{
-        background: linear-gradient(135deg, {SST_COLORS['red']} 0%, #b71c1c 100%);
+        background: linear-gradient(135deg, {COLOURS['red']} 0%, #b71c1c 100%);
         padding: 30px;
         border-radius: 12px;
         text-align: center;
@@ -76,7 +76,7 @@ st.markdown(f"""
         background: #ffffff;
         padding: 20px;
         border-radius: 10px;
-        border-left: 5px solid {SST_COLORS['blue']};
+        border-left: 5px solid {COLOURS['blue']};
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         margin: 10px 0;
         color: #1e1e2e !important;
@@ -109,7 +109,7 @@ st.markdown(f"""
 
     /* Buttons — primary blue */
     .stButton > button {{
-        background: linear-gradient(135deg, {SST_COLORS['blue']} 0%, #1565c0 100%) !important;
+        background: linear-gradient(135deg, {COLOURS['blue']} 0%, #1565c0 100%) !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 8px !important;
@@ -156,9 +156,9 @@ st.markdown(f"""
     }}
     .stTabs [aria-selected="true"] {{
         background-color: #ffffff !important;
-        color: {SST_COLORS['blue']} !important;
+        color: {COLOURS['blue']} !important;
         font-weight: 700;
-        border-bottom: 3px solid {SST_COLORS['blue']} !important;
+        border-bottom: 3px solid {COLOURS['blue']} !important;
     }}
 
     /* Metric boxes */
@@ -169,7 +169,7 @@ st.markdown(f"""
         box-shadow: 0 1px 6px rgba(0,0,0,0.07);
     }}
     [data-testid="stMetricValue"] {{
-        color: {SST_COLORS['blue']} !important;
+        color: {COLOURS['blue']} !important;
         font-weight: 700;
     }}
     [data-testid="stMetricLabel"] {{
@@ -234,9 +234,7 @@ def get_user_age(user_data):
             pass
     return get_user_age(user_data) if user_data else 14
 
-# ============================================
-# AI WORKOUT VERIFICATION FUNCTIONS
-# ============================================
+# verifitcation of workout by AI
 
 def verify_workout_with_openai(image, exercise_type, strictness=2):
     """
@@ -351,9 +349,6 @@ Be direct and specific about what needs to improve."""
     except Exception as e:
         return None, f"Error: {str(e)}", 0
 
-# ============================================
-# NAPFA grading standards
-# Format: [Grade A, B, C, D, E cutoffs], reverse scoring (True for time-based)
 NAPFA_STANDARDS = {
     12: {
         'm': {
@@ -547,7 +542,7 @@ def calculate_body_type(weight, height):
         return "Mesomorph", "Athletic build, gains muscle easily, responds well to training"
     else:
         return "Endomorph", "Larger bone structure, gains weight easily, slower metabolism"
-# Login/Registration Page
+# Login Page
 def login_page():
     st.markdown('<div class="main-header"><h1>FitTrack</h1><p>School of Science and Technology Singapore</p><p>Your Personal Fitness Companion</p></div>', unsafe_allow_html=True)
 
@@ -691,8 +686,7 @@ def login_page():
 
         st.write("---")
 
-        # - Email verification 
-        # Session state keys for verification flow
+        # Email verification 
         if 'verify_otp' not in st.session_state:
             st.session_state.verify_otp = None
         if 'verify_email' not in st.session_state:
@@ -852,7 +846,7 @@ def login_page():
             st.session_state.verify_email = None
             st.session_state.verify_pending = False
 
-        # Step 1 — validate then send OTP (or create directly if SMTP not configured)
+        # Step 1: validate then send OTP 
         if not st.session_state.verify_pending:
             if st.button("Send Verification Code & Create Account", key="register_btn", type="primary"):
                 if not new_email or not full_name or not new_password:
@@ -883,7 +877,7 @@ def login_page():
                         time.sleep(2)
                         st.rerun()
 
-        # Step 2 — enter OTP (only reached when email was actually sent)
+        # Step 2: enter OTP 
         else:
             st.info(f"A 6-digit code was sent to **{st.session_state.verify_email}**. Enter it below to complete registration.")
             entered_otp = st.text_input("Verification Code", max_chars=6,
@@ -1005,7 +999,7 @@ def bmi_calculator():
         with col1:
             st.markdown(f'<div class="stat-card"><h2 style="color: {color};">BMI: {bmi:.2f}</h2></div>', unsafe_allow_html=True)
         with col2:
-            st.markdown(f'<div class="stat-card"><h2 style="color: {SST_COLORS["gray"]};">Category: {category}</h2></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-card"><h2 style="color: {COLOURS["gray"]};">Category: {category}</h2></div>', unsafe_allow_html=True)
 
         st.info(f"You have {len(user_data['bmi_history'])} BMI record(s) saved.")
 
@@ -1103,7 +1097,7 @@ def napfa_calculator():
                 medal_color = "#CD7F32"
             else:
                 medal = "No Medal"
-                medal_color = SST_COLORS['gray']
+                medal_color = COLOURS['gray']
 
             # Save to history
             user_data['napfa_history'].append({
@@ -1133,7 +1127,7 @@ def napfa_calculator():
 
             col1, col2 = st.columns(2)
             with col1:
-                st.markdown(f'<div class="stat-card"><h2 style="color: {SST_COLORS["blue"]};">Total: {total}</h2></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="stat-card"><h2 style="color: {COLOURS["blue"]};">Total: {total}</h2></div>', unsafe_allow_html=True)
             with col2:
                 st.markdown(f'<div class="stat-card"><h2 style="color: {medal_color};">Medal: {medal}</h2></div>', unsafe_allow_html=True)
 
@@ -1200,7 +1194,7 @@ def sleep_tracker():
             with col1:
                 st.markdown(f'<div class="stat-card"><h2 style="color: {color};">Sleep Duration: {hours}h {minutes}m</h2></div>', unsafe_allow_html=True)
             with col2:
-                st.markdown(f'<div class="stat-card"><h2 style="color: {SST_COLORS["blue"]};">Quality: {quality}</h2></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="stat-card"><h2 style="color: {COLOURS["blue"]};">Quality: {quality}</h2></div>', unsafe_allow_html=True)
 
             st.info(advice)
             st.info(f"You have {len(user_data['sleep_history'])} sleep record(s) saved.")
@@ -5690,7 +5684,7 @@ def teacher_dashboard():
     # Display class code
     class_display_label = user_data.get('class_label') or 'My Class'
     st.markdown(f"""
-    <div class="stat-card" style="background: linear-gradient(135deg, {SST_COLORS['blue']} 0%, #1565c0 100%); color: white;">
+    <div class="stat-card" style="background: linear-gradient(135deg, {COLOURS['blue']} 0%, #1565c0 100%); color: white;">
         <h2>{class_display_label}</h2>
         <h3>Class Code: <strong>{user_data['class_code']}</strong></h3>
         <p>Share this code with your students so they can join your class</p>
